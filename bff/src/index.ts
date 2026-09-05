@@ -9,6 +9,9 @@ app.get('/api', (c) => {
 app.get('/api/auth', async (c) => {
   return await fetch('http://auth-srv:3000');
 });
+app.get('/api/bikes', async (c) => {
+  return await fetch('http://bikes-srv:3000');
+});
 
 serve(
   {

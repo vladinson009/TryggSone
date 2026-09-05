@@ -9,11 +9,7 @@ deploy:
 
 manifests:
   rawYaml:
-          - ./infra/k8s/ingress-srv.yml
-          - ./infra/k8s/bff-depl.yml
-          - ./infra/k8s/auth-depl.yml
-          - ./infra/k8s/auth-pg-depl.yml
-        # - ./infra/k8s/*
+        - ./infra/k8s/*
         # - ./infra/k8s-dev/*
 
 build:
@@ -30,8 +26,19 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: /app
+            
     - image: tryggsone-auth
       context: auth
+      docker:
+        dockerfile: Dockerfile
+        target: development
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: /app
+
+    - image: tryggsone-bikes
+      context: bikes
       docker:
         dockerfile: Dockerfile
         target: development
