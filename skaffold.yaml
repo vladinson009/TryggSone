@@ -10,6 +10,7 @@ deploy:
 manifests:
   rawYaml:
         - ./infra/k8s/*
+        - ./infra/secrets/*
         # - ./infra/k8s-dev/*
 
 build:
@@ -46,5 +47,19 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: /app
+
+    - image: tryggsone-client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+        target: development
+      sync:
+        manual:
+          - dest: /app
+            src: "**/*.tsx"
+          - dest: /app
+            src: "**/*.ts"
+          - dest: /app
+            src: "**/*.css"
             
 
