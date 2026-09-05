@@ -3,17 +3,19 @@ import { Hono } from 'hono';
 
 const app = new Hono();
 
-app.get('/bff', (c) => {
-  return c.text('Hello Hono!');
+app.get('/api', (c) => {
+  return c.text('Hello MR {Placeholder}!');
+});
+app.get('/api/auth', async (c) => {
+  return await fetch('http://auth-srv:3000');
 });
 
 serve(
   {
     fetch: app.fetch,
     port: 3000,
-    hostname: '0.0.0.0',
   },
   (info) => {
-    console.log(`Server is running on http://localhost:${info.port}`);
+    console.log(`BFF Server is running on http://localhost:${info.port}`);
   },
 );

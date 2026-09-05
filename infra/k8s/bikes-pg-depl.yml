@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-bikes-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-bikes
+  template:
+    metadata:
+      labels:
+        app: postgres-bikes
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: bikes-postgres
+            - name: POSTGRES_PASSWORD
+              value: bikes-postgres
+            - name: POSTGRES_DB
+              value: bikes
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-bikes-srv
+spec:
+  selector:
+    app: postgres-bikes
+  ports:
+    - port: 5432
+      targetPort: 5432

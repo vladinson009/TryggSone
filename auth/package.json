@@ -1,5 +1,5 @@
 {
-  "name": "bff",
+  "name": "auth",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",

@@ -9,7 +9,7 @@ spec:
     - host: localhost.dev
       http:
         paths:
-          - path: /bff
+          - path: /api
             pathType: Prefix
             backend:
               service:
