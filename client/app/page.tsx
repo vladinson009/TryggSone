@@ -4,23 +4,35 @@ import { authClient } from '@/lib/auth-client';
 
 export default function Home() {
   async function signInWithGitHub() {
-    const { data, error } = await authClient.signIn.social({
-      provider: 'github',
-    });
+    console.log('Sign Github client here');
 
-    if (error) {
-      console.error('GitHub authentication failed:', error);
+    try {
+      const { data, error } = await authClient.signIn.social({
+        provider: 'github',
+      });
+
+      if (error) {
+        console.error('GitHub authentication failed:', error);
+      }
+    } catch (error) {
+      console.log(error);
+      console.log('Sign Github client ERROR');
     }
   }
   async function testSignUp() {
-    const { data, error } = await authClient.signUp.email({
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'password123',
-    });
+    try {
+      const { data, error } = await authClient.signUp.email({
+        name: 'Test User',
+        email: 'test@example.com',
+        password: 'password123',
+      });
+      console.log('Signup data:', data);
+      console.log('Signup error:', error);
+    } catch (error) {
+      console.log('Test signup credentials catch block here');
 
-    console.log('Signup data:', data);
-    console.log('Signup error:', error);
+      console.log(error);
+    }
   }
 
   return (
