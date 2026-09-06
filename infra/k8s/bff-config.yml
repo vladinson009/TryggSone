@@ -4,5 +4,6 @@ metadata:
   name: bff-config
 data:
   AUTH_SERVICE_URL: http://auth-srv:3000
+  BIKES_SERVICE_URL: http://bikes-srv:3000
   REDIS_URL: redis://redis-srv:6379
 
