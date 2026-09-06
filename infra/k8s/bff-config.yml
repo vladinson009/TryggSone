@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: bff-config
 data:
+  PORT: '3000'
   AUTH_SERVICE_URL: http://auth-srv:3000
   BIKES_SERVICE_URL: http://bikes-srv:3000
   REDIS_URL: redis://redis-srv:6379

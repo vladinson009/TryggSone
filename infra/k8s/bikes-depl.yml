@@ -17,10 +17,9 @@ spec:
         image: tryggsone-bikes
         ports:
         - containerPort: 3000
-        env:
-          - name: DATABASE_URL
-            value: 'postgresql://bikes-postgres:bikes-postgres@postgres-bikes-srv:5432/bikes'
-            # TODO: Neon DB using secrets
+        envFrom:
+          - secretRef:
+              name: bikes-secret
 
 ---
 apiVersion: v1
