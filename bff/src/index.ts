@@ -7,8 +7,6 @@ import { connectRedis } from './clients/redis-client.js';
 const app = new Hono();
 app.onError(errorHandler);
 
-await connectRedis();
-
 app.get('/api', (c) => {
   return c.text('Hello MR {Placeholder}!');
 });
@@ -22,7 +20,22 @@ serve(
     fetch: app.fetch,
     port: 3000,
   },
-  (info) => {
+  async (info) => {
+    if (!process.env.AUTH_SERVICE_URL) {
+      throw new Error('AUTH_SERVICE_URL env is missing');
+    }
+    if (!process.env.BIKES_SERVICE_URL) {
+      throw new Error('BIKES_SERVICE_URL env is missing');
+    }
+    if (!process.env.REDIS_URL) {
+      throw new Error('REDIS_URL env is missing');
+    }
     console.log(`BFF Server is running on http://localhost:${info.port}`);
+    try {
+      await connectRedis();
+      console.log('Redis connected successfully...');
+    } catch (error) {
+      console.error('Redis connection failed');
+    }
   },
 );

@@ -4,6 +4,7 @@ import { redisClient } from './redis-client.js';
 import { ErrorStatus } from '../types/custom-error.js';
 
 import type { AuthSession, AuthUser } from '../types/auth-contract.js';
+import { cachedSessionKey } from '../redis/keys.js';
 
 type SessionResponse = Promise<{ user: AuthUser; session: AuthSession }>;
 
@@ -15,7 +16,7 @@ export const getSession = async (request: Request) => {
   }
 
   const hashedCookie = createHash('sha256').update(cookie).digest('hex');
-  const cacheKey = `auth:session#${hashedCookie}`;
+  const cacheKey = cachedSessionKey(hashedCookie);
 
   try {
     const cached = await redisClient.get(cacheKey);
@@ -49,7 +50,7 @@ export const getSession = async (request: Request) => {
   const session = (await response.json()) as SessionResponse;
   try {
     const expiresAt = new Date((await session).session.expiresAt).getTime();
-    const ttl = Math.max(1, Math.floor((expiresAt - Date.now()) / 1000));
+    // const ttl = Math.max(1, Math.floor((expiresAt - Date.now()) / 1000));
 
     // TODO: Invalidate Session on Logout wit Pub/Sub pattern
 
