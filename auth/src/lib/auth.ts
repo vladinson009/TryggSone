@@ -4,15 +4,33 @@ import { db } from '../db/index.js';
 import * as schema from '../db/auth-schema.js';
 
 export const auth = betterAuth({
+  trustedOrigins: ['https://localhost.dev', process.env.BASE_URL! ?? ''],
+
   database: drizzleAdapter(db, {
     provider: 'pg', // or "mysql", "sqlite"
     schema,
   }),
-  emailAndPassword: { enabled: true },
+
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ['github'],
+    },
+  },
+
   socialProviders: {
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+  },
+  emailAndPassword: { enabled: true, requireEmailVerification: false },
+
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ token, url, user }) => {
+      //TODO Resend logic
+      // No need to manually change the fields in DB. Url handle this for us
     },
   },
 });

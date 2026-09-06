@@ -7,7 +7,7 @@ export default function Home() {
     console.log('Sign Github client here');
 
     try {
-      const { data, error } = await authClient.signIn.social({
+      const { error } = await authClient.signIn.social({
         provider: 'github',
       });
 

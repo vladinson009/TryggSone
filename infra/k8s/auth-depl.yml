@@ -17,12 +17,11 @@ spec:
         image: tryggsone-auth
         ports:
         - containerPort: 3000
-        # env:
-        #   - name: DATABASE_URL
-        #     value: 'postgresql://test-postgres:test-postgres@postgres-auth-srv:5432/auth'
         envFrom:
           - secretRef:
               name: auth-secret
+          - configMapRef:
+              name: app-config
 ---
 apiVersion: v1
 kind: Service

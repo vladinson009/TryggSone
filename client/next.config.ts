@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  allowedDevOrigins: ['http://localhost.dev', 'localhost:3000', 'localhost.dev'],
+  allowedDevOrigins: [process.env.DEV_ORIGIN ?? 'localhost.dev'],
   /* config options here */
 };
 

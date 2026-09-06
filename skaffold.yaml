@@ -9,9 +9,10 @@ deploy:
 
 manifests:
   rawYaml:
+        - ./infra/k8s-dev/*
         - ./infra/k8s/*
         - ./infra/secrets/*
-        # - ./infra/k8s-dev/*
+        - ./infra/certs/*
 
 build:
   local:
@@ -63,3 +64,41 @@ build:
             src: "**/*.css"
             
 
+profiles:
+  - name: production
+    requiresAllActivations: false
+
+    manifests:
+      rawYaml:
+        - ./infra/k8s-prod/*
+        - ./infra/k8s/*
+        - ./infra/secrets/*
+    
+    build:
+      local:
+        push: true
+
+      artifacts:
+        - image: tryggsone-bff
+          context: bff
+          docker:
+            dockerfile: Dockerfile
+            target: production
+
+        - image: tryggsone-auth
+          context: auth
+          docker:
+            dockerfile: Dockerfile
+            target: production
+
+        - image: tryggsone-bikes
+          context: bikes
+          docker:
+            dockerfile: Dockerfile
+            target: production
+
+        - image: tryggsone-client
+          context: client
+          docker:
+            dockerfile: Dockerfile
+            target: production

@@ -5,10 +5,23 @@ metadata:
 spec:
   ingressClassName: nginx
 
+  tls:
+    - hosts:
+        - localhost.dev
+      secretName: localhost-dev-tls
+
   rules:
     - host: localhost.dev
       http:
         paths:
+          - path: /api/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-srv
+                port:
+                  number: 3000
+
           - path: /api
             pathType: Prefix
             backend:
