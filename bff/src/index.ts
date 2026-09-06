@@ -1,13 +1,19 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
+import { requireAuth } from './middlewares/requireAuth.js';
+import { errorHandler } from './middlewares/error-handler.js';
+import { connectRedis } from './clients/redis-client.js';
 
 const app = new Hono();
+app.onError(errorHandler);
+
+await connectRedis();
 
 app.get('/api', (c) => {
   return c.text('Hello MR {Placeholder}!');
 });
 
-app.get('/api/bikes', async (c) => {
+app.get('/api/bikes', requireAuth, async (c) => {
   return await fetch('http://bikes-srv:3000');
 });
 
