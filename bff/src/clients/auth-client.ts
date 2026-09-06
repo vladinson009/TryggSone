@@ -5,6 +5,7 @@ import { ErrorStatus } from '../types/custom-error.js';
 
 import type { AuthSession, AuthUser } from '../types/auth-contract.js';
 import { cachedSessionKey } from '../redis/keys.js';
+import { env } from '../config/env.js';
 
 type SessionResponse = Promise<{ user: AuthUser; session: AuthSession }>;
 
@@ -28,7 +29,7 @@ export const getSession = async (request: Request) => {
     console.error('Redis GET failed:', error);
   }
 
-  const response = await fetch(`${process.env.AUTH_SERVICE_URL}/internal/session`, {
+  const response = await fetch(`${env.AUTH_SERVICE_URL}/internal/session`, {
     headers: {
       cookie,
     },

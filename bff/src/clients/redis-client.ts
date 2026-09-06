@@ -1,7 +1,8 @@
 import { createClient } from 'redis';
+import { env } from '../config/env.js';
 
 const redis = createClient({
-  url: process.env.REDIS_URL!,
+  url: env.REDIS_URL,
 });
 
 redis.on('error', (err) => {
