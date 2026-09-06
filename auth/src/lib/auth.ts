@@ -2,6 +2,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '../db/index.js';
 import * as schema from '../db/auth-schema.js';
+import { admin } from 'better-auth/plugins';
 
 export const auth = betterAuth({
   trustedOrigins: ['https://localhost.dev', process.env.BASE_URL! ?? ''],
@@ -33,4 +34,5 @@ export const auth = betterAuth({
       // No need to manually change the fields in DB. Url handle this for us
     },
   },
+  plugins: [admin()],
 });
