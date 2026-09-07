@@ -48,4 +48,6 @@ export const bikes = pgTable('bikes', {
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
+
+  isApproved: boolean('is_approved').notNull().default(false),
 });

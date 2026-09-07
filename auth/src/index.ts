@@ -7,7 +7,7 @@ import { auth } from './lib/auth.js';
 const app = new Hono();
 app.on(['POST', 'GET'], '/api/auth/*', (c) => auth.handler(c.req.raw));
 
-app.get('internal/session', async (c) => {
+app.get('/internal/session', async (c) => {
   const session = await auth.api.getSession({
     headers: c.req.raw.headers,
   });
