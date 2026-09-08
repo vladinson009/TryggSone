@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { auth } from './lib/auth.js';
+import { parseErrorResponse } from './lib/parseErrorResponse.js';
 
 const app = new Hono();
 app.on(['POST', 'GET'], '/api/auth/*', (c) => auth.handler(c.req.raw));
@@ -12,7 +13,10 @@ app.get('/internal/session', async (c) => {
     headers: c.req.raw.headers,
   });
   if (!session) {
-    return c.json(null, 401);
+    return c.json(
+      parseErrorResponse('SESSION_NOT_FOUND', 401, 'No active session'),
+      401,
+    );
   }
   return c.json({
     user: session.user,

@@ -1,19 +1,19 @@
 import { Hono } from 'hono';
-import { env } from '../config/env.js';
+import { bikesClient } from '../clients/bikes-client.js';
+import { zValidator } from '@hono/zod-validator';
+import { BikeInsertSchema } from '../schemas/bike.js';
 
 const app = new Hono();
 
 app.get('/', async (c) => {
-  const response = await fetch(env.BIKES_SERVICE_URL);
-
-  return c.text(await response.text());
+  const bikes = await bikesClient.getAllBikes();
+  return c.json(bikes);
 });
-app.post('/', async (c) => {
-  const response = await fetch(env.BIKES_SERVICE_URL, {
-    method: 'POST',
-    body: '',
-  });
-  return c.text(await response.text());
+
+app.post('/', zValidator('json', BikeInsertSchema), async (c) => {
+  const body = c.req.valid('json');
+  const createdBike = await bikesClient.createNewBike(body);
+  return c.json(createdBike);
 });
 
 export { app as appBikes };

@@ -5,13 +5,13 @@ export enum ErrorStatus {
   NotFound = 404,
   Conflict = 409,
   UnprocessableEntity = 422,
+  InternalServerError = 500,
+  BadGateway = 502,
+  ServiceUnavailable = 503,
 }
-export type ErrorCode =
+export type AppErrorCode =
+  | 'BIKE_ALREADY_EXISTS'
+  | 'BIKE_NOT_FOUND'
   | 'VALIDATION_ERROR'
   | 'UNAUTHORIZED'
-  | 'FORBIDDEN'
-  | 'BIKE_NOT_FOUND'
-  | 'BIKE_ALREADY_EXISTS'
-  | 'USER_NOT_FOUND'
-  | 'AUTH_SERVICE_ERROR'
-  | 'INTERNAL_SERVER_ERROR';
+  | 'USER_NOT_FOUND';

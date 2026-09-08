@@ -7,6 +7,9 @@ import {
   boolean,
 } from 'drizzle-orm/pg-core';
 
+type Bike = typeof bikes.$inferSelect;
+type BikeInsert = typeof bikes.$inferInsert;
+
 export const bikes = pgTable('bikes', {
   id: uuid('id').defaultRandom().primaryKey(),
 

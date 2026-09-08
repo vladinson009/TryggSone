@@ -5,10 +5,10 @@ import { env } from './config/env.js';
 const app = new Hono();
 
 app.get('/', (c) => {
-  return c.text('Hello BIKES!');
+  return c.json({ bikeName: 'asd' });
 });
-app.post('/', (c) => {
-  return c.text('asd eno dve tri');
+app.post('/', async (c) => {
+  return c.json({ body: await c.req.json() });
 });
 serve(
   {

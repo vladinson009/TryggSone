@@ -2,12 +2,26 @@
 
 import type { Context } from 'hono';
 import { HTTPException } from 'hono/http-exception';
-import { AppError } from '../errors/app-error.js';
+import { CustomError } from '../errors/app-error.js';
+import z from 'zod';
 
 export function errorHandler(err: Error, c: Context) {
   console.error(err);
 
-  if (err instanceof AppError) {
+  if (err instanceof z.ZodError) {
+    return c.json(
+      {
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Validation failed',
+          issues: err.issues,
+        },
+      },
+      400,
+    );
+  }
+
+  if (err instanceof CustomError) {
     return c.json(
       {
         error: {
