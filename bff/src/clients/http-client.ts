@@ -24,13 +24,12 @@ export const createHttpClient = (baseUrl: string) => {
 
     if (!response.ok) {
       const error: ServiceErrorResponse = await response.json();
-      throw new ServiceError(error.code, error.status, error.message);
+      throw new ServiceError(error.code, response.status, error.message);
     }
-
+    //TODO: Handle empty response
     // if (response.status === 204) {
     //   return;
     // }
-
     return response.json();
   };
 

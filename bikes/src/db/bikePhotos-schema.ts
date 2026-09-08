@@ -1,12 +1,12 @@
 import { integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
-import { bikes } from './bikes-schema.js';
+import { bikesTable } from './bikes-schema.js';
 
-export const bikePhotos = pgTable('bike_photos', {
+export const bikePhotosTable = pgTable('bike_photos', {
   id: uuid('id').defaultRandom().primaryKey(),
 
   bikeId: uuid('bike_id')
     .notNull()
-    .references(() => bikes.id, {
+    .references(() => bikesTable.id, {
       onDelete: 'cascade',
     }),
 

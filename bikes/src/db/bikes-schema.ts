@@ -6,11 +6,9 @@ import {
   integer,
   boolean,
 } from 'drizzle-orm/pg-core';
+import { createInsertSchema, createSelectSchema } from 'drizzle-orm/zod';
 
-type Bike = typeof bikes.$inferSelect;
-type BikeInsert = typeof bikes.$inferInsert;
-
-export const bikes = pgTable('bikes', {
+export const bikesTable = pgTable('bikes', {
   id: uuid('id').defaultRandom().primaryKey(),
 
   ownerId: text('owner_id').notNull(),
@@ -54,3 +52,5 @@ export const bikes = pgTable('bikes', {
 
   isApproved: boolean('is_approved').notNull().default(false),
 });
+export const BikeInsertSchema = createInsertSchema(bikesTable);
+export const BikeSelectSchema = createSelectSchema(bikesTable);
