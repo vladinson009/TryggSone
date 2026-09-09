@@ -1,0 +1,14 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq
+  namespace: default
+spec:
+  replicas: 1
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+data:
+  RABBITMQ_URL: "rabbitmq:5672"
