@@ -5,17 +5,18 @@ import { insertNewBike } from './services/insert-new-bike.js';
 import { errorHandler } from './middlewares/error-handler.js';
 import { zValidator } from '@hono/zod-validator';
 import { BikeInsertSchema } from './db/bikes-schema.js';
-import { DrizzleQueryError } from 'drizzle-orm';
+import { queryBikes } from './services/query-bikes.js';
 
 const app = new Hono();
 app.onError(errorHandler);
 
-app.get('/', (c) => {
-  return c.json({ bikeName: 'asd' });
+app.get('/', async (c) => {
+  const userBikes = await queryBikes();
+  return c.json(userBikes);
 });
 app.post('/', zValidator('json', BikeInsertSchema), async (c) => {
-  const { id, ...body } = c.req.valid('json');
-  const newBike = await insertNewBike(body);
+  const { id, ...userInput } = c.req.valid('json');
+  const newBike = await insertNewBike(userInput);
   return c.json(newBike);
 });
 serve(

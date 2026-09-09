@@ -1,4 +1,4 @@
-type Code = 'INTERNAL_SERVER_ERROR' | 'CONFLICT' | (string & {});
+type Code = 'INTERNAL_SERVER_ERROR' | 'CONFLICT' | 'UNAUTHORIZED' | (string & {});
 
 export const parseErrorResponse = (code: Code, message: string) => {
   return {

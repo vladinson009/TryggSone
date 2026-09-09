@@ -6,10 +6,7 @@ import type { BikeResponse } from './types/responses.js';
 const createBikesClient = () => {
   const httpClient = createHttpClient(env.BIKES_SERVICE_URL);
   return {
-    getAllBikes: () => {
-      const response = httpClient.get<BikeResponse[]>('');
-      return response;
-    },
+    getAllBikes: () => httpClient.get<BikeResponse[]>(''),
     insertNewBike: (userInput: BikeInsert, ownerId: string) => {
       const body = { ...userInput, ownerId };
       const result = httpClient.post<BikeResponse>('', { body });
