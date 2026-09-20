@@ -5,6 +5,19 @@ metadata:
   namespace: default
 spec:
   replicas: 1
+  # 1. Define explicit Kubernetes resource limits
+  resources:
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+  # 2. Adjust RabbitMQ internal memory watermark threshold
+  rabbitmq:
+    additionalConfig: |
+      vm_memory_high_watermark.relative = 0.6
+      disk_free_limit.absolute = 10MB
 ---
 apiVersion: v1
 kind: ConfigMap

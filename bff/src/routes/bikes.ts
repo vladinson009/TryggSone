@@ -16,6 +16,7 @@ app.post('/', zValidator('json', BikeInsertSchema), requireAuth, async (c) => {
 
   const { id: ownerId } = c.get('user');
   const createdBike = await bikesClient.insertNewBike(body, ownerId);
+
   return c.json(createdBike);
 });
 

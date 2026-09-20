@@ -2,3 +2,4 @@
 /infra/certs
 .env
 node_modules
+__common

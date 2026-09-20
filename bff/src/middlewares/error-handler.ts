@@ -23,7 +23,6 @@ export function errorHandler(err: Error, c: Context) {
   if (err instanceof HTTPException) {
     return err.getResponse();
   }
-
   return c.json(
     parseErrorResponse('INTERNAL_SERVER_ERROR', 'Internal server error!'),
     500,
