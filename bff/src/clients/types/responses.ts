@@ -9,6 +9,16 @@ export type ServiceErrorResponse = {
   message: string;
 };
 
+export interface PaginatedResult<T> {
+  data: T[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export type BikeResponse = {
   id: string;
   ownerId: string;
@@ -33,3 +43,5 @@ export type BikeResponse = {
   updatedAt: Date;
   isApproved: boolean;
 };
+
+

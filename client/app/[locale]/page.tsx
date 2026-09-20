@@ -1,8 +1,10 @@
 'use client';
 
 import { authClient } from '@/lib/auth-client';
+import { useTranslations } from 'next-intl';
 
 export default function Home() {
+  const t = useTranslations('HomePage');
   async function signInWithGitHub() {
     console.log('Sign Github client here');
 
@@ -60,9 +62,9 @@ export default function Home() {
       console.log(error);
     }
   }
-
   return (
     <div className="container flex flex-col gap-5">
+      <h1>LOCALE: {t('title')}</h1>
       <button onClick={signInWithGitHub}>Continue with GitHub</button>
       <button onClick={testSignUp}>Test Email Signup</button>
       <button onClick={testSignIn}>Test Email SignIn</button>

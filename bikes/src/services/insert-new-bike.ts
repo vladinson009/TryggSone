@@ -9,6 +9,5 @@ export const insertNewBike = async (userInput: z.infer<typeof BikeInsertSchema>)
   const [bike] = await db.insert(bikesTable).values(userInput).returning();
   const channel = await bikeEventBus.getChannel();
   await bikePublisher.publish(channel, bikeKey('created'), bike);
-
   return bike;
 };

@@ -1,12 +1,12 @@
 import { env } from '../config/env.js';
 import type { BikeInsert } from '../schemas/bike.js';
 import { createHttpClient } from './http-client.js';
-import type { BikeResponse } from './types/responses.js';
+import type { BikeResponse, PaginatedResult } from './types/responses.js';
 
 const createBikesClient = () => {
   const httpClient = createHttpClient(env.BIKES_SERVICE_URL);
   return {
-    getAllBikes: () => httpClient.get<BikeResponse[]>(''),
+    getAllBikes: () => httpClient.get<PaginatedResult<BikeResponse>>(''),
     insertNewBike: (userInput: BikeInsert, ownerId: string) => {
       const body = { ...userInput, ownerId };
       const result = httpClient.post<BikeResponse>('', { body });
