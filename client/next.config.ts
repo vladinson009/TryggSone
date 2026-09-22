@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: [process.env.DEV_ORIGIN ?? 'localhost.dev'],
   /* config options here */
 };
-const withNextIntl = createNextIntlPlugin();
+const withNextIntl = createNextIntlPlugin({
+  experimental: {
+    createMessagesDeclaration: './messages/en.json',
+  },
+});
 
 export default withNextIntl(nextConfig);

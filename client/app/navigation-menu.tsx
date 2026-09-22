@@ -11,9 +11,11 @@ import { authClient } from '@/lib/auth-client';
 import { Button } from '@/components/ui/button';
 import { Bike, LogOut, UserCircle2 } from 'lucide-react';
 import { ModeToggle } from '@/components/theme-toggle';
+import { useTranslations } from 'next-intl';
 
 export default function NavigationHeader() {
   const { data } = authClient.useSession();
+  const t = useTranslations('Navigation');
 
   return (
     <header className="border-y">
@@ -27,7 +29,7 @@ export default function NavigationHeader() {
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuLink render={<Link href="/" />}>
-                Home
+                {t('home')}
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -40,21 +42,21 @@ export default function NavigationHeader() {
       </div>
     </header>
   );
-}
 
-const AuthUser = () => {
-  return (
-    <Button onClick={async () => await authClient.signOut()}>
-      <LogOut />
-      Sign out
-    </Button>
-  );
-};
-const GuestUser = () => {
-  return (
-    <NavigationMenuLink render={<Link href="/auth" />}>
-      <UserCircle2 />
-      Sign In
-    </NavigationMenuLink>
-  );
-};
+  function AuthUser() {
+    return (
+      <Button onClick={async () => await authClient.signOut()}>
+        <LogOut />
+        {t('sign-out')}
+      </Button>
+    );
+  }
+  function GuestUser() {
+    return (
+      <NavigationMenuLink render={<Link href="/auth" />}>
+        <UserCircle2 />
+        {t('sign-in')}
+      </NavigationMenuLink>
+    );
+  }
+}

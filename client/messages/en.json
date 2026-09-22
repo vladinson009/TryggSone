@@ -1,5 +1,10 @@
 {
   "HomePage": {
     "title": "Title Hello"
+  },
+  "Navigation": {
+    "sign-in": "Sign In",
+    "sign-out": "Sign Out",
+    "home": "Home"
   }
 }
