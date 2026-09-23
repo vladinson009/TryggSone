@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -12,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Bike, LogOut, UserCircle2 } from 'lucide-react';
 import { ModeToggle } from '@/components/theme-toggle';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 
 export default function NavigationHeader() {
   const { data } = authClient.useSession();
