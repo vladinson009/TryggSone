@@ -6,18 +6,18 @@ import { getSessionCookie } from 'better-auth/cookies';
 const intlMiddleware = createMiddleware(routing);
 
 export default async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  // const { pathname } = request.nextUrl;
 
-  const pathnameWithoutLocale = pathname.replace(
-    new RegExp(`^/(${routing.locales.join('|')})`),
-    '',
-  );
+  // const pathnameWithoutLocale = pathname.replace(
+  //   new RegExp(`^/(${routing.locales.join('|')})`),
+  //   '',
+  // );
 
-  const isAuthRoute = pathnameWithoutLocale.startsWith('/auth');
-  const sessionCookie = getSessionCookie(request);
-  if (sessionCookie && isAuthRoute) {
-    return NextResponse.redirect(new URL('/', request.url));
-  }
+  // const isAuthRoute = pathnameWithoutLocale.startsWith('/auth');
+  // const sessionCookie = getSessionCookie(request);
+  // if (sessionCookie && isAuthRoute) {
+  //   return NextResponse.redirect(new URL('/', request.url));
+  // }
 
   return intlMiddleware(request);
 }
