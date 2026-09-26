@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/toast';
 import { useRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
-import { signUpSchema } from '../validators/signup-schema';
+import { signUpSchema } from '../../validators/signup-schema';
 import { ArrowRightIcon, EyeIcon, EyeOffIcon } from 'lucide-react';
 
 export default function SignUpForm() {
@@ -111,6 +111,7 @@ export default function SignUpForm() {
                   className="pr-10"
                 />
                 <button
+                  tabIndex={-1}
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
                 >

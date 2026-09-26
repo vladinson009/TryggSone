@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Roboto } from 'next/font/google';
 import '../globals.css';
 import { cn } from '@/lib/utils';
-import NavigationHeader from '../navigation-menu';
+import NavigationHeader from './navigation-menu';
 import { ThemeProvider } from '@/components/theme-provider';
 import { NextIntlClientProvider } from 'next-intl';
 import { Toaster } from '@/components/ui/toast';

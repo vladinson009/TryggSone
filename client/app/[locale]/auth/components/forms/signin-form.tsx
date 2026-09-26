@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/toast';
 import { useRouter } from '@/i18n/navigation';
 import { authClient } from '@/lib/auth-client';
-import { signInSchema } from '../validators/signin-schema';
+import { signInSchema } from '../../validators/signin-schema';
 import {
   ArrowRightIcon,
   EyeIcon,
@@ -37,6 +37,9 @@ export default function SignInForm() {
       password: userInput.password,
     });
     if (error && error.code === 'INVALID_EMAIL_OR_PASSWORD') {
+      return form.setError('email', { message: error.message });
+    }
+    if (error && error.code === 'EMAIL_NOT_VERIFIED') {
       return form.setError('email', { message: error.message });
     }
     router.push('/');
