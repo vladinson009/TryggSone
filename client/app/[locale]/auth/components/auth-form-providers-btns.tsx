@@ -3,11 +3,33 @@
 import { Button } from '@/components/ui/button';
 import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
+import { useState } from 'react';
 
 type SocialOptions = Parameters<typeof authClient.signIn.social>[0];
 type Provider = SocialOptions['provider'];
 
 export default function AuthFormProvidersButtons() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function signInWithSocial(provider: Provider) {
+    console.log(`Sign ${provider} client here`);
+    setIsSubmitting(true);
+    try {
+      const { error } = await authClient.signIn.social({
+        provider,
+      });
+
+      if (error) {
+        console.error(`${provider} authentication failed:`, error);
+      }
+    } catch (error) {
+      console.log(error);
+      console.log(`Sign ${provider} client ERROR`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <>
       {/* Google Button */}
@@ -15,6 +37,7 @@ export default function AuthFormProvidersButtons() {
         onClick={() => signInWithSocial('google')}
         className="flex gap-2 items-center"
         variant="outline"
+        disabled={isSubmitting}
       >
         <Image
           src="/icons/google-color.svg"
@@ -30,6 +53,7 @@ export default function AuthFormProvidersButtons() {
         onClick={() => signInWithSocial('github')}
         className="flex gap-2 items-center"
         variant="outline"
+        disabled={isSubmitting}
       >
         <div
           className="h-5 w-5 bg-foreground
@@ -42,21 +66,4 @@ export default function AuthFormProvidersButtons() {
       </Button>
     </>
   );
-}
-
-async function signInWithSocial(provider: Provider) {
-  console.log(`Sign ${provider} client here`);
-
-  try {
-    const { error } = await authClient.signIn.social({
-      provider,
-    });
-
-    if (error) {
-      console.error(`${provider} authentication failed:`, error);
-    }
-  } catch (error) {
-    console.log(error);
-    console.log(`Sign ${provider} client ERROR`);
-  }
 }
