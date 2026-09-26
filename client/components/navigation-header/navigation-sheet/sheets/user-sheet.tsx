@@ -5,14 +5,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { Link } from '@/i18n/navigation';
-import {
-  ArrowLeft,
-  ChevronRight,
-  HouseIcon,
-  LogOut,
-  User,
-  UserStar,
-} from 'lucide-react';
+import { ArrowLeft, LogOut, UserStar } from 'lucide-react';
 import { UserSheetProps } from '../types';
 import {
   NavigationMenu,
