@@ -37,14 +37,14 @@ export default function NavigationHeader() {
             href="/"
           >
             <User className="h-[1.5em] w-[1.5em]" />
-            <span>Sign In</span>
+            <span>Demo</span>
           </Link>
           <Link
             href="/"
             className="flex flex-col items-center justify-center text-md"
           >
             <Heart className="h-[1.5em] w-[1.5em]" />
-            <span>Favorite</span>
+            <span>Demo</span>
           </Link>
         </div>
       </div>

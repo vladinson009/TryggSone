@@ -8,7 +8,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { SheetClose, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Link } from '@/i18n/navigation';
-import { ChevronRight, HouseIcon, User } from 'lucide-react';
+import { Bike, ChevronRight, HouseIcon, User } from 'lucide-react';
 import { MainSheetProps } from '../types';
 import TryggLogo from '@/components/trygg-logo';
 
@@ -37,7 +37,7 @@ export default function MainSheet({ navigate }: MainSheetProps) {
         </div>
       </SheetHeader>
 
-      <NavigationMenu className="flex-col gap-3 flex-0 max-w-none">
+      <NavigationMenu className="flex-col gap-4 flex-0 max-w-none">
         <NavigationMenuList className="flex-col items-stretch bg-background w-full">
           {/* Home */}
           <NavigationMenuItem
@@ -73,32 +73,23 @@ export default function MainSheet({ navigate }: MainSheetProps) {
           </NavigationMenuItem>
         </NavigationMenuList>
 
-        {/* //TODO:  */}
-        {/* <NavigationMenuList className="flex-col items-stretch bg-background w-full">
-          <NavigationMenuItem className="w-full">
+        <NavigationMenuList className="flex-col items-stretch bg-background w-full">
+          {/* Bikes */}
+          <NavigationMenuItem
+            className="hover:bg-border hover:cursor-pointer"
+            onClick={() => navigate('bikes')}
+          >
             <Item>
               <ItemMedia variant="icon">
-                <HouseIcon />
+                <Bike />
               </ItemMedia>
               <ItemContent className="flex-row justify-between items-center">
-                <ItemTitle>Home</ItemTitle>
+                <ItemTitle>Bikes</ItemTitle>
                 <ChevronRight />
               </ItemContent>
             </Item>
           </NavigationMenuItem>
-          <Separator />
-          <NavigationMenuItem>
-            <Item>
-              <ItemMedia variant="icon">
-                <HouseIcon />
-              </ItemMedia>
-              <ItemContent className="flex-row justify-between items-center">
-                <ItemTitle>Users</ItemTitle>
-                <ChevronRight />
-              </ItemContent>
-            </Item>
-          </NavigationMenuItem>
-        </NavigationMenuList> */}
+        </NavigationMenuList>
       </NavigationMenu>
     </>
   );

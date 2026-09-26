@@ -6,6 +6,7 @@ import CustomSheetTrigger from './sheet-trigger';
 import { MenuTypes } from './types';
 import MainSheet from './sheets/main-sheet';
 import UserSheet from './sheets/user-sheet';
+import BikesSheet from './sheets/bikes-sheet';
 
 export default function NavigationSheet() {
   const [menuStack, setMenuStack] = useState<MenuTypes[]>(['main']);
@@ -25,6 +26,7 @@ export default function NavigationSheet() {
       <SheetContent className="px-2 bg-secondary" side="left">
         {currentMenu === 'main' && <MainSheet navigate={navigate} />}
         {currentMenu === 'user' && <UserSheet goBack={goBack} />}
+        {currentMenu === 'bikes' && <BikesSheet goBack={goBack} />}
       </SheetContent>
     </Sheet>
   );
