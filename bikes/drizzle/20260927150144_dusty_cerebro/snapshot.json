@@ -1,11 +1,22 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "f3a1dbc2-edff-4f75-bb18-76c71f2d220e",
+  "id": "ab9bb25b-2ac7-4bb3-adea-94401b4862df",
   "prevIds": [
-    "17fa23ff-4768-44c5-b0c1-1b89215f7420"
+    "00000000-0000-0000-0000-000000000000"
   ],
   "ddl": [
+    {
+      "values": [
+        "active",
+        "for_sale",
+        "stolen",
+        "deleted"
+      ],
+      "name": "bike_status",
+      "entityType": "enums",
+      "schema": "public"
+    },
     {
       "isRlsEnabled": false,
       "name": "bikes",
@@ -53,6 +64,19 @@
       "generated": null,
       "identity": null,
       "name": "frame_number",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "bikes"
+    },
+    {
+      "type": "bike_status",
+      "typeSchema": "public",
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'active'",
+      "generated": null,
+      "identity": null,
+      "name": "status",
       "entityType": "columns",
       "schema": "public",
       "table": "bikes"

@@ -10,6 +10,7 @@ export const BikeInsertSchema = z.object({
   condition: z.string(),
   price: z.number().int(),
 
+  status: z.enum(['active', 'for_sale', 'stolen', 'deleted']).default('active'),
   frameSize: z.string().nullable().optional(),
   wheelSize: z.string().nullable().optional(),
   weight: z.number().int().nullable().optional(),

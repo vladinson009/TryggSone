@@ -1,0 +1,65 @@
+import { BIKES_EXCHANGE, TopicListener, bikeKey } from '@tryggsone/common';
+import { bikesEventBus } from '../connection.js';
+import { db } from '../../db/index.js';
+import { vehicleEventsTable } from '../../db/vehicle-events-schema.js';
+import type { ConsumeMessage } from 'amqplib';
+import type { BikeEventData } from '../types/bike-event-data.js';
+
+type BikeHandler = (
+  routingKey: string,
+  payload: BikeEventData,
+  msg: ConsumeMessage,
+) => void | Promise<void>;
+
+const handlers: Record<string, BikeHandler> = {
+  [bikeKey('created')]: async (routingKey, payload, msg) => {
+    console.log('bike created:');
+    console.log(msg.properties);
+
+    await db.insert(vehicleEventsTable).values({
+      eventId: msg.properties.messageId,
+      eventType: routingKey,
+      // delete new Date() in version 1.0.16 on @tryggsone/common
+      occurredAt: msg.properties.timestamp ?? new Date(payload.createdAt),
+      vehicleId: payload.id,
+      correlationId: msg.properties.correlationId,
+      ownerId: payload.ownerId,
+      data: payload,
+    });
+  },
+  [bikeKey('updated')]: async (routingKey, payload, msg) => {
+    console.log('bike updated:', payload);
+  },
+  [bikeKey('deleted')]: async (routingKey, payload, msg) => {
+    await db.insert(vehicleEventsTable).values({
+      eventId: msg.properties.messageId,
+      eventType: routingKey,
+      // delete new Date() in version 1.0.16 on @tryggsone/common
+      occurredAt: msg.properties.timestamp ?? new Date(),
+      vehicleId: payload.id,
+      correlationId: msg.properties.correlationId,
+      ownerId: payload.ownerId,
+      data: payload,
+    });
+  },
+};
+
+const bikeListener = new TopicListener<BikeEventData>({
+  exchange: BIKES_EXCHANGE,
+  exchangeType: 'topic',
+  queuePrefix: 'q.logger.vehicle',
+  routingKeys: Object.keys(handlers),
+  onMessage: async (routingKey, payload, msg) => {
+    const handler = handlers[routingKey];
+    if (!handler) {
+      console.warn('Unhandled bike routing key:', routingKey);
+      return;
+    }
+    await handler(routingKey, payload, msg);
+  },
+});
+
+export async function registerBikeListeners(): Promise<void> {
+  const channel = await bikesEventBus.getChannel();
+  await bikeListener.register(channel);
+}

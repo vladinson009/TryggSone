@@ -5,8 +5,16 @@ import {
   uuid,
   integer,
   boolean,
+  pgEnum,
 } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-orm/zod';
+
+export const bikeStatusEnum = pgEnum('bike_status', [
+  'active',
+  'for_sale',
+  'stolen',
+  'deleted',
+]);
 
 export const bikesTable = pgTable('bikes', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -15,6 +23,7 @@ export const bikesTable = pgTable('bikes', {
 
   // Identification
   frameNumber: text('frame_number').notNull().unique(),
+  status: bikeStatusEnum('status').notNull().default('active'),
 
   // Bike
   brand: text('brand').notNull(),

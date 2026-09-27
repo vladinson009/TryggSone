@@ -7,6 +7,7 @@ import { postApp } from './routes/post.js';
 import { bikeEventBus } from './lib/rabbitmq/connection.js';
 import { zValidator } from '@hono/zod-validator';
 import { paginationSchema } from './zod/pagination.js';
+import { deleteApp } from './routes/delete.js';
 
 const app = new Hono();
 
@@ -21,6 +22,7 @@ app.get('/', zValidator('query', paginationSchema), async (c) => {
 });
 
 app.route('', postApp);
+app.route('', deleteApp);
 
 serve(
   {
