@@ -1,11 +1,7 @@
 import { count } from 'drizzle-orm';
-import { bikesTable, type BikeSelectSchema } from '../db/bikes-schema.js';
+import { bikesTable } from '../db/bikes-schema.js';
 import { db } from '../db/index.js';
-
-export interface PaginationParams {
-  page?: number;
-  limit?: number;
-}
+import type { PaginationParams } from '../zod/pagination.js';
 
 export interface PaginatedResult<T> {
   data: T[];
@@ -20,9 +16,7 @@ export interface PaginatedResult<T> {
 export const queryBikes = async ({
   page = 1,
   limit = 20,
-}: PaginationParams = {}): Promise<
-  PaginatedResult<typeof bikesTable.$inferSelect>
-> => {
+}: PaginationParams): Promise<PaginatedResult<typeof bikesTable.$inferSelect>> => {
   const offset = (page - 1) * limit;
 
   const [data, totalResult] = await Promise.all([

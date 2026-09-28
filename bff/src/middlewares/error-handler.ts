@@ -2,9 +2,10 @@
 
 import type { Context } from 'hono';
 import { HTTPException } from 'hono/http-exception';
-import { CustomError } from '../errors/app-error.js';
 import z from 'zod';
 import { parseErrorResponse } from '../lib/parse-error-response.js';
+import { CustomError } from '@tryggsone/common';
+import type { ContentfulStatusCode } from 'hono/utils/http-status';
 
 export function errorHandler(err: Error, c: Context) {
   console.error(`[bff => errorHandler] ${err}`);
@@ -17,7 +18,10 @@ export function errorHandler(err: Error, c: Context) {
   }
 
   if (err instanceof CustomError) {
-    return c.json(parseErrorResponse(err.code, err.message), err.status);
+    return c.json(
+      parseErrorResponse(err.code, err.message),
+      err.status as ContentfulStatusCode,
+    );
   }
 
   if (err instanceof HTTPException) {

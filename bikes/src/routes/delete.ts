@@ -5,18 +5,13 @@ import { and, eq } from 'drizzle-orm';
 import { bikePublisher } from '../lib/rabbitmq/publisher.js';
 import { bikeEventBus } from '../lib/rabbitmq/connection.js';
 import { bikeKey } from '@tryggsone/common';
+import { requireOwnerId } from '../middlewares/requireOwnerId.js';
 
 const app = new Hono();
 
-app.delete('/:bikeId', async (c) => {
+app.delete('/:bikeId', requireOwnerId, async (c) => {
   const bikeId = c.req.param('bikeId');
-  const ownerId = c.req.header('x-user-id');
-  console.log('Bikes headers:', c.req.header());
-  console.log('Bikes x-user-id:', c.req.header('x-user-id'));
-
-  if (!ownerId) {
-    return c.json({ message: 'Missing user identity' }, 401);
-  }
+  const ownerId = c.get('ownerId');
 
   const [bike] = await db
     .delete(bikesTable)

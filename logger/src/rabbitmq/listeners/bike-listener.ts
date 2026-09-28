@@ -19,8 +19,7 @@ const handlers: Record<string, BikeHandler> = {
     await db.insert(vehicleEventsTable).values({
       eventId: msg.properties.messageId,
       eventType: routingKey,
-      // delete new Date() in version 1.0.16 on @tryggsone/common
-      occurredAt: msg.properties.timestamp ?? new Date(payload.createdAt),
+      occurredAt: new Date(msg.properties.timestamp ?? payload.createdAt),
       vehicleId: payload.id,
       correlationId: msg.properties.correlationId,
       ownerId: payload.ownerId,

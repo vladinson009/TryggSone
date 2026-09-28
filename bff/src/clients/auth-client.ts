@@ -6,9 +6,10 @@ import { redisClient } from './redis-client.js';
 import { cachedSessionKey } from '../redis/keys.js';
 import { env } from '../config/env.js';
 import { createHttpClient } from './http-client.js';
+import { ServiceError } from '@tryggsone/common';
 
-const createAuthClient = () => {
-  const httpClient = createHttpClient(env.AUTH_SERVICE_URL);
+const createAuthClient = (baseUrl: string) => {
+  const httpClient = createHttpClient(baseUrl);
 
   return {
     getSession: async (request: Request): Promise<SessionResponse | null> => {
@@ -31,12 +32,17 @@ const createAuthClient = () => {
         console.error('Redis GET failed:', error);
       }
 
-      const session = await httpClient.get<SessionResponse>('/internal/session', {
-        headers: {
-          cookie,
+      const session = await httpClient.get<SessionResponse | null>(
+        '/api/auth/get-session',
+        {
+          headers: {
+            cookie,
+          },
         },
-      });
-
+      );
+      if (!session) {
+        throw new ServiceError('UNAUTHORIZED', 401, 'No active session');
+      }
       console.log('Auth SRV cookie');
 
       try {
@@ -57,4 +63,4 @@ const createAuthClient = () => {
   };
 };
 
-export const authClient = createAuthClient();
+export const authClient = createAuthClient(env.AUTH_SERVICE_URL);

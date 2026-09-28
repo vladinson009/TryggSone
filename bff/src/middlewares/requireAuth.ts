@@ -1,9 +1,8 @@
+import type { AuthSession, AuthUser } from '../types/auth-contract.js';
+
+import { ServiceError } from '@tryggsone/common';
 import { createMiddleware } from 'hono/factory';
 import { authClient } from '../clients/auth-client.js';
-import { AppError } from '../errors/app-error.js';
-import { ErrorStatus } from '../types/custom-error.js';
-
-import type { AuthSession, AuthUser } from '../types/auth-contract.js';
 
 type AuthVariables = {
   user: AuthUser;
@@ -16,7 +15,7 @@ export const requireAuth = createMiddleware<{ Variables: AuthVariables }>(
 
     // Redundant ?
     if (!session) {
-      throw new AppError('UNAUTHORIZED', ErrorStatus.Unauthorized, 'Unauthorized');
+      throw new ServiceError('UNAUTHORIZED', 401, 'Unauthorized');
     }
     c.set('user', session.user);
     c.set('session', session.session);

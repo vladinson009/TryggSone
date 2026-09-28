@@ -61,5 +61,8 @@ export const bikesTable = pgTable('bikes', {
 
   isApproved: boolean('is_approved').notNull().default(false),
 });
-export const BikeInsertSchema = createInsertSchema(bikesTable);
+export const BikeInsertSchema = createInsertSchema(bikesTable).omit({
+  id: true,
+  ownerId: true,
+});
 export const BikeSelectSchema = createSelectSchema(bikesTable);
