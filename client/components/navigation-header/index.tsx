@@ -7,6 +7,7 @@ import { Link } from '@/i18n/navigation';
 import NavigationSheet from './navigation-sheet';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '../ui/input-group';
 import TryggLogo from '../trygg-logo';
+import Container from '../container';
 
 export default function NavigationHeader() {
   const { data } = authClient.useSession();
@@ -15,7 +16,7 @@ export default function NavigationHeader() {
 
   return (
     <header className="border-y py-1">
-      <div className="flex justify-between items-center container mx-auto my-1">
+      <Container className="flex justify-between items-center my-1">
         {/* Menu Sheet and Logo */}
         <div className="flex items-center gap-4">
           <NavigationSheet />
@@ -47,7 +48,7 @@ export default function NavigationHeader() {
             <span>Demo</span>
           </Link>
         </div>
-      </div>
+      </Container>
     </header>
   );
 }

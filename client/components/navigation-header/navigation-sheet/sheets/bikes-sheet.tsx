@@ -73,7 +73,7 @@ export default function BikesSheet({ goBack }: NestedSheetProps) {
                   <Boxes />
                 </ItemMedia>
                 <ItemContent className="flex-row justify-between items-center">
-                  <ItemTitle>Bikes catalogue</ItemTitle>
+                  <ItemTitle>Bikes for sale</ItemTitle>
                 </ItemContent>
               </Item>
             </Link>
