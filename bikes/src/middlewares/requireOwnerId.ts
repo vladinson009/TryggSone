@@ -1,6 +1,6 @@
 import { createMiddleware } from 'hono/factory';
 import { xUserId } from '../config/constants.js';
-import { ServiceError } from '@tryggsone/common';
+import { ServiceError } from '@tryggsone/common/errors';
 
 type Env = {
   Variables: {

@@ -1,6 +1,6 @@
 import type { AuthSession, AuthUser } from '../types/auth-contract.js';
 
-import { ServiceError } from '@tryggsone/common';
+import { ServiceError } from '@tryggsone/common/errors';
 import { createMiddleware } from 'hono/factory';
 import { authClient } from '../clients/auth-client.js';
 

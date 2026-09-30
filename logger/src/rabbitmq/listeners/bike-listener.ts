@@ -1,13 +1,14 @@
-import { BIKES_EXCHANGE, TopicListener, bikeKey } from '@tryggsone/common';
+import { BIKES_EXCHANGE, TopicListener } from '@tryggsone/common/events';
+import { bikeKey } from '@tryggsone/common/keys';
 import { bikesEventBus } from '../connection.js';
 import { db } from '../../db/index.js';
 import { vehicleEventsTable } from '../../db/vehicle-events-schema.js';
 import type { ConsumeMessage } from 'amqplib';
-import type { BikeEventData } from '../types/bike-event-data.js';
+import type { BikeResponse } from '@tryggsone/common/types';
 
 type BikeHandler = (
   routingKey: string,
-  payload: BikeEventData,
+  payload: BikeResponse,
   msg: ConsumeMessage,
 ) => void | Promise<void>;
 
@@ -43,7 +44,7 @@ const handlers: Record<string, BikeHandler> = {
   },
 };
 
-const bikeListener = new TopicListener<BikeEventData>({
+const bikeListener = new TopicListener<BikeResponse>({
   exchange: BIKES_EXCHANGE,
   exchangeType: 'topic',
   queuePrefix: 'q.logger.vehicle',

@@ -1,4 +1,4 @@
-import { ServiceError } from '@tryggsone/common';
+import { ServiceError } from '@tryggsone/common/errors';
 import type { ServiceErrorResponse } from './types/responses.js';
 
 type Options = { body?: unknown; headers?: HeadersInit };

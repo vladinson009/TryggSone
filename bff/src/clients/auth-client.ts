@@ -6,7 +6,7 @@ import { redisClient } from './redis-client.js';
 import { cachedSessionKey } from '../redis/keys.js';
 import { env } from '../config/env.js';
 import { createHttpClient } from './http-client.js';
-import { ServiceError } from '@tryggsone/common';
+import { ServiceError } from '@tryggsone/common/errors';
 
 const createAuthClient = (baseUrl: string) => {
   const httpClient = createHttpClient(baseUrl);

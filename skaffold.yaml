@@ -15,6 +15,11 @@ manifests:
         - ./infra/certs/*
 
 build:
+  tagPolicy:
+    sha256:
+      {}
+    # gitCommit: // In production
+    #   ignoreChanges: false
   local:
     push: false
 

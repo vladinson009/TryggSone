@@ -13,6 +13,8 @@ export interface PaginatedResult<T> {
   };
 }
 
+const bikeTye =  bikesTable.$inferSelect;
+
 export const queryBikes = async ({
   page = 1,
   limit = 20,

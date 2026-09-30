@@ -3,7 +3,7 @@
 import type { Context } from 'hono';
 import { DrizzleQueryError } from 'drizzle-orm';
 import { parseErrorResponse } from '../lib/parse-error-response.js';
-import { CustomError } from '@tryggsone/common';
+import { CustomError } from '@tryggsone/common/errors';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 
 export function errorHandler(err: Error, c: Context) {

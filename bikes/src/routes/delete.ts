@@ -4,7 +4,7 @@ import { db } from '../db/index.js';
 import { and, eq } from 'drizzle-orm';
 import { bikePublisher } from '../lib/rabbitmq/publisher.js';
 import { bikeEventBus } from '../lib/rabbitmq/connection.js';
-import { bikeKey } from '@tryggsone/common';
+import { bikeKey } from '@tryggsone/common/keys';
 import { requireOwnerId } from '../middlewares/requireOwnerId.js';
 
 const app = new Hono();

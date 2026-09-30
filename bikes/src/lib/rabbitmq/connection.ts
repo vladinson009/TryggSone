@@ -1,5 +1,5 @@
 import { RABBITMQ_URL } from '../../config/env.js';
-import { EventBus } from '@tryggsone/common';
+import { EventBus } from '@tryggsone/common/events';
 
 class BikesEventBus extends EventBus {}
 

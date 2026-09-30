@@ -1,4 +1,5 @@
-import { BIKES_EXCHANGE, TopicListener, bikeKey } from '@tryggsone/common';
+import {   bikeKey } from '@tryggsone/common/keys';
+import { TopicListener, BIKES_EXCHANGE } from '@tryggsone/common/events';
 import { bikesEventBus } from '../connection.js';
 
 type BikeHandler = (payload: unknown) => void | Promise<void>;
