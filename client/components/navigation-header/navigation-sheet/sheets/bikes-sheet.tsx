@@ -67,7 +67,7 @@ export default function BikesSheet({ goBack }: NestedSheetProps) {
             className="hover:bg-border hover:cursor-pointer"
             render={<SheetClose />}
           >
-            <Link href="/bikes">
+            <Link href="/bikes/for-sale">
               <Item>
                 <ItemMedia variant="icon">
                   <Boxes />

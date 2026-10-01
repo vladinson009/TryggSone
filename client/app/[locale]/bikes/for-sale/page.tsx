@@ -11,15 +11,34 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Link } from '@/i18n/navigation';
-import { BikeResponse, PaginatedResult } from '@tryggsone/common/types';
+import { dateFormatter } from '@/lib/dateFormatter';
+import { PaginatedResult } from '@tryggsone/common/types';
+import { PaginationIconsOnly } from './pagination';
+
+//TODO: Type BikesForSale must be imported from common package after version ^1.0.20
+type BikesForSale = {
+  id: string;
+  ownerId: string;
+  description: string | null;
+  status: 'active' | 'for_sale' | 'stolen' | 'deleted';
+  brand: string;
+  model: string;
+  isElectric: boolean;
+  condition: string;
+  price: number;
+  updatedAt: Date;
+  photo: string | null;
+};
 
 export default async function BikesPage() {
-  const response = await fetch('http://bff-srv:3000/api/bikes');
-  const data: PaginatedResult<BikeResponse> = await response.json();
+  const response = await fetch('http://bff-srv:3000/api/bikes/for-sale');
+  const data: PaginatedResult<BikesForSale> = await response.json();
   const bikes = data.data;
 
   return (
     <Container as="section" className="pt-5">
+      {/* <PaginationIconsOnly  /> */}
+
       <div className="flex flex-wrap justify-center gap-5">
         {bikes.map((bike) => {
           return (
@@ -30,14 +49,20 @@ export default async function BikesPage() {
             >
               <Card className="h-full">
                 <img
-                  src="https://plus.unsplash.com/premium_photo-1678718713393-2b88cde9605b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Event cover"
+                  src={bike.photo || undefined}
+                  alt={bike.model}
                   className="relative z-20 aspect-video w-full object-cover"
                 />
                 <CardHeader>
-                  <CardAction>
-                    <Badge variant="secondary">Featured</Badge>
-                  </CardAction>
+                  <div className="flex flex-wrap">
+                    <Badge variant="secondary">{bike.condition}</Badge>
+                    <Badge variant="secondary">
+                      {bike.isElectric ? 'electric' : 'non-electric'}
+                    </Badge>
+                    <Badge variant="secondary">
+                      {dateFormatter(bike.updatedAt)}
+                    </Badge>
+                  </div>
                   <CardTitle className="line-clamp-2">{bike.model}</CardTitle>
                   <CardDescription className="line-clamp-3">
                     <p>{bike.description}</p>
@@ -45,12 +70,12 @@ export default async function BikesPage() {
                       ownerId: <span>{bike.ownerId}</span>
                     </p>
                   </CardDescription>
+                  <p className="font-semibold">{bike.price} kr</p>
                 </CardHeader>
                 <CardFooter className="mt-auto">
-                  <Button className="w-full">View Event</Button>
+                  <Button className="w-full">View Offer</Button>
                 </CardFooter>
               </Card>
-              {/* <CardDescription>{bike.description}</CardDescription> */}
             </Link>
           );
         })}

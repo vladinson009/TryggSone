@@ -5,13 +5,14 @@ import { BikeInsertSchema } from '../schemas/bike.js';
 import { requireAuth } from '../middlewares/requireAuth.js';
 import { env } from '../config/env.js';
 import { PaginationQuerySchema } from '../schemas/pagination-query.js';
+//TODO: export xUserId from common/configs packages after v ^1.0.20
 
 const app = new Hono();
 
-app.get('/', zValidator('query', PaginationQuerySchema), async (c) => {
+app.get('/for-sale', zValidator('query', PaginationQuerySchema), async (c) => {
   const query = c.req.valid('query');
 
-  const bikes = await bikesClient.getAllBikes(query);
+  const bikes = await bikesClient.bikesForSale(query);
   return c.json(bikes);
 });
 
