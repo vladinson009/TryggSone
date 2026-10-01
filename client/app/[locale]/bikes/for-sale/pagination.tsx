@@ -26,8 +26,12 @@ export function PaginationIconsOnly({ totalPages }: { totalPages: number }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const currentPage = Math.max(1, Number(searchParams.get('page') || 1));
-  const currentLimit = searchParams.get('limit') ?? DEFAULT_LIMIT;
+  const rawPage = Math.max(1, Number(searchParams.get('page')));
+  const currentPage = rawPage <= totalPages ? rawPage : 1;
+
+  const rawLimit = searchParams.get('limit');
+  const currentLimit =
+    rawLimit && ROWS_PER_PAGE_OPTIONS.includes(rawLimit) ? rawLimit : DEFAULT_LIMIT;
 
   const hasPrevious = currentPage > 1;
   const hasNext = currentPage < totalPages;
@@ -38,9 +42,15 @@ export function PaginationIconsOnly({ totalPages }: { totalPages: number }) {
     params.set('page', '1');
     router.push(`${pathname}?${params.toString()}`);
   }
-  //  TODO FIX pagination logic
+
+  function onPageChange(page: number) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', String(page));
+    router.push(`${pathname}?${params.toString()}`);
+  }
+
   return (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex items-center justify-center gap-4 space-y-3">
       <Field orientation="horizontal" className="w-fit">
         <FieldLabel htmlFor="select-rows-per-page">Rows per page</FieldLabel>
         <Select value={currentLimit} onValueChange={onLimitChange}>
@@ -62,7 +72,7 @@ export function PaginationIconsOnly({ totalPages }: { totalPages: number }) {
         <PaginationContent>
           <PaginationItem>
             {hasPrevious ?
-              <PaginationPrevious />
+              <PaginationPrevious onClick={() => onPageChange(currentPage - 1)} />
             : <PaginationPrevious
                 aria-disabled="true"
                 className="pointer-events-none opacity-50"
@@ -71,7 +81,7 @@ export function PaginationIconsOnly({ totalPages }: { totalPages: number }) {
           </PaginationItem>
           <PaginationItem>
             {hasNext ?
-              <PaginationNext href="?page=2" />
+              <PaginationNext onClick={() => onPageChange(currentPage + 1)} />
             : <PaginationNext
                 aria-disabled="true"
                 className="pointer-events-none opacity-50"
@@ -80,6 +90,10 @@ export function PaginationIconsOnly({ totalPages }: { totalPages: number }) {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
+
+      <p className="">
+        Page {currentPage} of {totalPages}
+      </p>
     </div>
   );
 }

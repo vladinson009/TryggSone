@@ -14,7 +14,7 @@ const createBikesClient = (baseUrl: string) => {
   return {
     bikesForSale: (query: PaginationQuery) =>
       httpClient.get<PaginatedResult<BikesForSale>>(
-        `/for-sale?${toQueryString(query)}`,
+        `/for-sale${toQueryString(query)}`,
         {},
       ),
 

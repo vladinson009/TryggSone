@@ -45,6 +45,9 @@ export default async function BikesPage({
   const response = await fetch(`http://bff-srv:3000/api/bikes/for-sale${query}`);
   const data: PaginatedResult<BikesForSale> = await response.json();
   const bikes = data.data;
+  console.log(data);
+  console.log('page', page);
+  console.log('limit', limit);
 
   return (
     <Container as="section" className="pt-5">
