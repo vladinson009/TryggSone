@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -30,14 +29,26 @@ type BikesForSale = {
   photo: string | null;
 };
 
-export default async function BikesPage() {
-  const response = await fetch('http://bff-srv:3000/api/bikes/for-sale');
+type SearchParams = Promise<{
+  page: string;
+  limit: string;
+}>;
+
+export default async function BikesPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const { limit, page } = await searchParams;
+  const query = `?limit=${limit ?? 25}&page=${page ?? 1}`;
+
+  const response = await fetch(`http://bff-srv:3000/api/bikes/for-sale${query}`);
   const data: PaginatedResult<BikesForSale> = await response.json();
   const bikes = data.data;
 
   return (
     <Container as="section" className="pt-5">
-      {/* <PaginationIconsOnly  /> */}
+      <PaginationIconsOnly totalPages={data.pagination.totalPages} />
 
       <div className="flex flex-wrap justify-center gap-5">
         {bikes.map((bike) => {

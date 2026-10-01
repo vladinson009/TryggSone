@@ -38,7 +38,7 @@ export function PaginationIconsOnly({ totalPages }: { totalPages: number }) {
     params.set('page', '1');
     router.push(`${pathname}?${params.toString()}`);
   }
-
+  //  TODO FIX pagination logic
   return (
     <div className="flex items-center justify-between gap-4">
       <Field orientation="horizontal" className="w-fit">
@@ -71,7 +71,7 @@ export function PaginationIconsOnly({ totalPages }: { totalPages: number }) {
           </PaginationItem>
           <PaginationItem>
             {hasNext ?
-              <PaginationNext />
+              <PaginationNext href="?page=2" />
             : <PaginationNext
                 aria-disabled="true"
                 className="pointer-events-none opacity-50"
