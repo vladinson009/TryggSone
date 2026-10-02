@@ -29,13 +29,21 @@ const handlers: Record<string, BikeHandler> = {
   },
   [bikeKey('updated')]: async (routingKey, payload, msg) => {
     console.log('bike updated:', payload);
+    await db.insert(vehicleEventsTable).values({
+      eventId: msg.properties.messageId,
+      eventType: routingKey,
+      occurredAt: new Date(msg.properties.timestamp ?? payload.updatedAt),
+      vehicleId: payload.id,
+      correlationId: msg.properties.correlationId,
+      ownerId: payload.ownerId,
+      data: payload,
+    });
   },
   [bikeKey('deleted')]: async (routingKey, payload, msg) => {
     await db.insert(vehicleEventsTable).values({
       eventId: msg.properties.messageId,
       eventType: routingKey,
-      // delete new Date() in version 1.0.16 on @tryggsone/common
-      occurredAt: msg.properties.timestamp ?? new Date(),
+      occurredAt: new Date(msg.properties.timestamp ?? payload.updatedAt),
       vehicleId: payload.id,
       correlationId: msg.properties.correlationId,
       ownerId: payload.ownerId,

@@ -15,6 +15,15 @@ export const bikeStatusEnum = pgEnum('bike_status', [
   'stolen',
   'deleted',
 ]);
+export const bikeConditionEnum = pgEnum('bike_condition', [
+  'new',
+  'like_new',
+  'good',
+  'fair',
+  'poor',
+  'for_parts',
+  'unknown',
+]);
 
 export const bikesTable = pgTable('bikes', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -47,7 +56,7 @@ export const bikesTable = pgTable('bikes', {
   batteryCapacity: integer('battery_capacity'),
 
   // Condition
-  condition: text('condition').notNull(),
+  condition: bikeConditionEnum('condition').notNull().default('unknown'),
   // new, like_new, good, fair, poor
 
   // Pricing
@@ -61,6 +70,7 @@ export const bikesTable = pgTable('bikes', {
 
   isApproved: boolean('is_approved').notNull().default(false),
 });
+
 export const BikeInsertSchema = createInsertSchema(bikesTable).omit({
   id: true,
   ownerId: true,

@@ -12,7 +12,3 @@ const envSchema = z.object({
 });
 
 export const env = envSchema.parse(process.env);
-
-export const RABBITMQ_URL = `amqp://${encodeURIComponent(
-  env.RABBITMQ_USERNAME,
-)}:${encodeURIComponent(env.RABBITMQ_PASSWORD)}@${env.RABBITMQ_URL}`;

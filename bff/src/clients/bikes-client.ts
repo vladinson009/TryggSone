@@ -1,13 +1,13 @@
-import type { BikeInsert } from '../schemas/bike.js';
+import type { BikeInsert, BikeInsertAddress } from '../schemas/bike.js';
 import type { BikesForSale, PaginatedResult } from './types/responses.js';
 import type { PaginationQuery } from '../schemas/pagination-query.js';
-import type { BikeResponse } from '@tryggsone/common/types';
+import type { AddBikeAddressResponse, BikeResponse } from '@tryggsone/common/types';
 
 import { env } from '../config/env.js';
-import { xUserId } from '../config/constants.js';
 
 import { createHttpClient } from './http-client.js';
 import { toQueryString } from '../lib/to-query-string.js';
+import { headers } from '@tryggsone/common/configs';
 
 const createBikesClient = (baseUrl: string) => {
   const httpClient = createHttpClient(baseUrl);
@@ -22,7 +22,14 @@ const createBikesClient = (baseUrl: string) => {
       httpClient.post<BikeResponse>('/', {
         body,
         headers: {
-          [xUserId]: ownerId,
+          [headers.xUserId]: ownerId,
+        },
+      }),
+    addAddress: (body: BikeInsertAddress, ownerId: string) =>
+      httpClient.post<AddBikeAddressResponse>('/add-address', {
+        body,
+        headers: {
+          [headers.xUserId]: ownerId,
         },
       }),
   };

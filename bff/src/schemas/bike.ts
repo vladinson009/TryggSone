@@ -7,7 +7,9 @@ export const BikeInsertSchema = z.object({
   year: z.number().int(),
   color: z.string(),
   type: z.string(),
-  condition: z.string(),
+  condition: z
+    .enum(['new', 'like_new', 'good', 'fair', 'poor', 'for_parts', 'unknown'])
+    .default('unknown'),
   price: z.number().int(),
 
   status: z.enum(['active', 'for_sale', 'stolen', 'deleted']).default('active'),
@@ -26,4 +28,17 @@ export const BikeInsertSchema = z.object({
   description: z.string().nullable().optional(),
 });
 
+export const BikeInsertAddressSchema = z.object({
+  bikeId: z.string().min(1, 'BikeId is required'),
+  postCode: z
+    .string()
+    .min(1, 'postCode is required')
+    .max(10, 'postCode max length is 10'),
+  street: z
+    .string()
+    .min(1, 'street is required')
+    .max(200, 'street max length is 200'),
+  city: z.string().min(1, 'city is required').max(100, 'city max length is 100'),
+});
 export type BikeInsert = z.infer<typeof BikeInsertSchema>;
+export type BikeInsertAddress = z.infer<typeof BikeInsertAddressSchema>;

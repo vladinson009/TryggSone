@@ -1,5 +1,8 @@
 'use client';
+import Container from '@/components/container';
+import LinkIcon from '@/components/link-icon';
 import { authClient } from '@/lib/auth-client';
+import { BikeIcon, CarIcon, HammerIcon, ScooterIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 export default function Home() {
@@ -62,12 +65,28 @@ export default function Home() {
     }
   }
   return (
-    <div className="container flex flex-col gap-5">
-      <h1>LOCALE: {t('title')}</h1>
-      <button onClick={signInWithGitHub}>Continue with GitHub</button>
-      <button onClick={testSignUp}>Test Email Signup</button>
-      <button onClick={testSignIn}>Test Email SignIn</button>
-      <button onClick={testLogOut}>Test LogOut</button>
+    <div className="">
+      <Container className="flex flex-wrap items-center justify-center bg-accent gap-15 py-10">
+        <LinkIcon title="Bikes" href="/">
+          <BikeIcon size={45} />
+        </LinkIcon>
+        <LinkIcon title="Scooters" href="/">
+          <ScooterIcon size={45} />
+        </LinkIcon>
+        <LinkIcon title="Cars" href="/">
+          <CarIcon size={45} />
+        </LinkIcon>
+        <LinkIcon title="Tools" href="/">
+          <HammerIcon size={45} />
+        </LinkIcon>
+      </Container>
+      <Container className="flex flex-col gap-5">
+        <h1>LOCALE: {t('title')}</h1>
+        <button onClick={signInWithGitHub}>Continue with GitHub</button>
+        <button onClick={testSignUp}>Test Email Signup</button>
+        <button onClick={testSignIn}>Test Email SignIn</button>
+        <button onClick={testLogOut}>Test LogOut</button>
+      </Container>
     </div>
   );
 }

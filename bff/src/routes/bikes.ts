@@ -1,11 +1,13 @@
 import { Hono } from 'hono';
 import { bikesClient } from '../clients/bikes-client.js';
 import { zValidator } from '@hono/zod-validator';
-import { BikeInsertSchema } from '../schemas/bike.js';
+import { BikeInsertAddressSchema, BikeInsertSchema } from '../schemas/bike.js';
 import { requireAuth } from '../middlewares/requireAuth.js';
 import { env } from '../config/env.js';
 import { PaginationQuerySchema } from '../schemas/pagination-query.js';
-//TODO: export xUserId from common/configs packages after v ^1.0.20
+import { validateJson } from '../lib/validate-zod-json.js';
+
+import { headers } from '@tryggsone/common/configs';
 
 const app = new Hono();
 
@@ -16,13 +18,26 @@ app.get('/for-sale', zValidator('query', PaginationQuerySchema), async (c) => {
   return c.json(bikes);
 });
 
-app.post('/', zValidator('json', BikeInsertSchema), requireAuth, async (c) => {
+app.post('/', validateJson(BikeInsertSchema), requireAuth, async (c) => {
   const body = c.req.valid('json');
   const { id: ownerId } = c.get('user');
 
   const createdBike = await bikesClient.insertNewBike(body, ownerId);
   return c.json(createdBike);
 });
+app.post(
+  '/add-address',
+  validateJson(BikeInsertAddressSchema),
+  requireAuth,
+  async (c) => {
+    const body = c.req.valid('json');
+    const { id: ownerId } = c.get('user');
+
+    const address = await bikesClient.addAddress(body, ownerId);
+
+    return c.json(address);
+  },
+);
 app.delete('/:bikeId', requireAuth, async (c) => {
   const bikeId = c.req.param('bikeId');
   const { id: ownerId } = c.get('user');
@@ -30,7 +45,7 @@ app.delete('/:bikeId', requireAuth, async (c) => {
   const response = await fetch(env.BIKES_SERVICE_URL + '/' + bikeId, {
     method: 'DELETE',
     headers: {
-      'x-user-id': ownerId,
+      [headers.xUserId]: ownerId,
     },
   });
   const data = await response.json();

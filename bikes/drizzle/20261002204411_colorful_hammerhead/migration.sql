@@ -1,0 +1,1 @@
+ALTER TABLE "bike_address" RENAME COLUMN "post_number" TO "post_code";

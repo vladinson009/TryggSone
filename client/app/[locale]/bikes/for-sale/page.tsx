@@ -11,23 +11,8 @@ import {
 } from '@/components/ui/card';
 import { Link } from '@/i18n/navigation';
 import { dateFormatter } from '@/lib/dateFormatter';
-import { PaginatedResult } from '@tryggsone/common/types';
+import { BikesForSaleResponse, PaginatedResult } from '@tryggsone/common/types';
 import { PaginationIconsOnly } from './pagination';
-
-//TODO: Type BikesForSale must be imported from common package after version ^1.0.20
-type BikesForSale = {
-  id: string;
-  ownerId: string;
-  description: string | null;
-  status: 'active' | 'for_sale' | 'stolen' | 'deleted';
-  brand: string;
-  model: string;
-  isElectric: boolean;
-  condition: string;
-  price: number;
-  updatedAt: Date;
-  photo: string | null;
-};
 
 type SearchParams = Promise<{
   page: string;
@@ -43,7 +28,7 @@ export default async function BikesPage({
   const query = `?limit=${limit ?? 25}&page=${page ?? 1}`;
 
   const response = await fetch(`http://bff-srv:3000/api/bikes/for-sale${query}`);
-  const data: PaginatedResult<BikesForSale> = await response.json();
+  const data: PaginatedResult<BikesForSaleResponse> = await response.json();
   const bikes = data.data;
   console.log(data);
   console.log('page', page);

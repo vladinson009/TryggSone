@@ -1,11 +1,25 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "ab9bb25b-2ac7-4bb3-adea-94401b4862df",
+  "id": "7558a12e-ed35-4c82-a5c9-0d2492abe661",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
   "ddl": [
+    {
+      "values": [
+        "new",
+        "like_new",
+        "good",
+        "fair",
+        "poor",
+        "for_parts",
+        "unknown"
+      ],
+      "name": "bike_condition",
+      "entityType": "enums",
+      "schema": "public"
+    },
     {
       "values": [
         "active",
@@ -26,6 +40,12 @@
     {
       "isRlsEnabled": false,
       "name": "bike_photos",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "bike_address",
       "entityType": "tables",
       "schema": "public"
     },
@@ -238,11 +258,11 @@
       "table": "bikes"
     },
     {
-      "type": "text",
-      "typeSchema": null,
+      "type": "bike_condition",
+      "typeSchema": "public",
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "'unknown'",
       "generated": null,
       "identity": null,
       "name": "condition",
@@ -394,6 +414,71 @@
       "table": "bike_photos"
     },
     {
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "bike_address"
+    },
+    {
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "bike_id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "bike_address"
+    },
+    {
+      "type": "varchar(10)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "post_number",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "bike_address"
+    },
+    {
+      "type": "varchar(100)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "city",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "bike_address"
+    },
+    {
+      "type": "varchar(200)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "street",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "bike_address"
+    },
+    {
       "nameExplicit": false,
       "columns": [
         "bike_id"
@@ -409,6 +494,23 @@
       "entityType": "fks",
       "schema": "public",
       "table": "bike_photos"
+    },
+    {
+      "nameExplicit": false,
+      "columns": [
+        "bike_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "bikes",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "name": "bike_address_bike_id_bikes_id_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "bike_address"
     },
     {
       "columns": [
@@ -429,6 +531,39 @@
       "schema": "public",
       "table": "bike_photos",
       "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "bike_address_pkey",
+      "schema": "public",
+      "table": "bike_address",
+      "entityType": "pks"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "bike_id",
+        "sort_order"
+      ],
+      "nullsNotDistinct": false,
+      "name": "bike_photos_bike_id_sort_order_unique",
+      "entityType": "uniques",
+      "schema": "public",
+      "table": "bike_photos"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        "bike_id"
+      ],
+      "nullsNotDistinct": false,
+      "name": "bike_address_bike_id_unique",
+      "entityType": "uniques",
+      "schema": "public",
+      "table": "bike_address"
     },
     {
       "nameExplicit": false,

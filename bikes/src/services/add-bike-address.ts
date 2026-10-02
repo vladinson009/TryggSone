@@ -1,0 +1,46 @@
+import type z from 'zod';
+
+import { db } from '../db/index.js';
+import { bikeEventBus } from '../lib/rabbitmq/connection.js';
+import { bikePublisher } from '../lib/rabbitmq/publisher.js';
+import { bikeKey } from '@tryggsone/common/keys';
+import {
+  bikeAddressTable,
+  type BikeAddressInsertSchema,
+} from '../db/bike-address-schema.js';
+import { ServiceError } from '@tryggsone/common/errors';
+
+export const addBikeAddress = async (
+  body: z.infer<typeof BikeAddressInsertSchema>,
+  ownerId: string,
+) => {
+  const bikeAddress = await db.transaction(async (tx) => {
+    const bike = await tx.query.bikesTable.findFirst({
+      where: {
+        id: body.bikeId,
+      },
+    });
+
+    if (!bike) {
+      throw new ServiceError('NOT_FOUND', 404, 'Bike with that ID is not found');
+    }
+    if (bike.ownerId !== ownerId) {
+      throw new ServiceError('FORBIDDEN', 403, 'You do not own this bike');
+    }
+    const [inserted] = await tx
+      .insert(bikeAddressTable)
+      .values({
+        bikeId: body.bikeId,
+        city: body.city,
+        postCode: body.postCode,
+        street: body.street,
+      })
+      .returning();
+    return inserted;
+  });
+
+  const channel = await bikeEventBus.getChannel();
+  await bikePublisher.publish(channel, bikeKey('updated'), bikeAddress);
+
+  return bikeAddress;
+};

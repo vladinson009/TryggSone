@@ -1,18 +1,16 @@
 import type { PaginationParams } from '../zod/pagination.js';
-import type { BikesForSale } from './types.js';
-import type { PaginatedResult } from '@tryggsone/common/types';
+import type { BikesForSaleResponse, PaginatedResult } from '@tryggsone/common/types';
 
 import { and, count, eq } from 'drizzle-orm';
 
 import { bikesTable } from '../db/bikes-schema.js';
 import { bikePhotosTable } from '../db/bikePhotos-schema.js';
 import { db } from '../db/index.js';
-//TODO: Type BikesForSale must be imported from common package after version ^1.0.20
 
 export const bikesForSale = async ({
   page = 1,
   limit = 20,
-}: PaginationParams): Promise<PaginatedResult<BikesForSale>> => {
+}: PaginationParams): Promise<PaginatedResult<BikesForSaleResponse>> => {
   const offset = (page - 1) * limit;
 
   const [data, totalResult] = await Promise.all([

@@ -33,19 +33,6 @@ spec:
         envFrom:
           - configMapRef:
               name: bff-config
-          - configMapRef:
-              name: rabbitmq-config
-        env: 
-          - name: RABBITMQ_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: rabbitmq-default-user
-                key: username
-          - name: RABBITMQ_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: rabbitmq-default-user
-                key: password
 ---
 apiVersion: v1
 kind: Service
