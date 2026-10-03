@@ -7,11 +7,8 @@ import {
   BikeInsertSchema,
 } from '../schemas/bike.js';
 import { requireAuth } from '../middlewares/requireAuth.js';
-import { env } from '../config/env.js';
 import { PaginationQuerySchema } from '../schemas/pagination-query.js';
 import { validateJson } from '../lib/validate-zod-json.js';
-
-import { headers } from '@tryggsone/common/configs';
 
 const app = new Hono();
 
