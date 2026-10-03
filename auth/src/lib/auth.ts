@@ -5,7 +5,7 @@ import * as schema from '../db/auth-schema.js';
 import { admin } from 'better-auth/plugins';
 
 export const auth = betterAuth({
-  trustedOrigins: [process.env.BASE_URL! ?? 'http://localhost:3000'],
+  trustedOrigins: [process.env.BASE_URL! ?? 'http://localhost'],
 
   database: drizzleAdapter(db, {
     provider: 'pg', // or "mysql", "sqlite"

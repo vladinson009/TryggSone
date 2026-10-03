@@ -7,11 +7,11 @@ spec:
 
   tls:
     - hosts:
-        - localhost.dev
+        - localhost
       secretName: localhost-dev-tls
 
   rules:
-    - host: localhost.dev
+    - host: localhost
       http:
         paths:
           - path: /api/auth

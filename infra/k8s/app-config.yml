@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: app-config
 data:
-  BASE_URL: "http://localhost.dev"
-  BETTER_AUTH_URL: "http://localhost.dev"
-  DEV_ORIGIN: "localhost.dev"
+  BASE_URL: "http://localhost"
+  BETTER_AUTH_URL: "http://localhost"
+  DEV_ORIGIN: "localhost"
