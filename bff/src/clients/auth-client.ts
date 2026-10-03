@@ -1,5 +1,3 @@
-import type { SessionResponse } from './types/responses.js';
-
 import { createHash } from 'node:crypto';
 import { redisClient } from './redis-client.js';
 
@@ -7,6 +5,7 @@ import { cachedSessionKey } from '../redis/keys.js';
 import { env } from '../config/env.js';
 import { createHttpClient } from './http-client.js';
 import { ServiceError } from '@tryggsone/common/errors';
+import type { SessionResponse } from '@tryggsone/common/types';
 
 const createAuthClient = (baseUrl: string) => {
   const httpClient = createHttpClient(baseUrl);
@@ -32,14 +31,11 @@ const createAuthClient = (baseUrl: string) => {
         console.error('Redis GET failed:', error);
       }
 
-      const session = await httpClient.get<SessionResponse | null>(
-        '/api/auth/get-session',
-        {
-          headers: {
-            cookie,
-          },
+      const session = await httpClient.get<SessionResponse | null>('/api/auth/get-session', {
+        headers: {
+          cookie,
         },
-      );
+      });
       if (!session) {
         throw new ServiceError('UNAUTHORIZED', 401, 'No active session');
       }

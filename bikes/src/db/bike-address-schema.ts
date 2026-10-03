@@ -1,7 +1,7 @@
 // db/bike-address-schema.ts
 import { uuid, varchar, unique, pgTable } from 'drizzle-orm/pg-core';
 import { bikesTable } from './bikes-schema.js';
-import { createInsertSchema } from 'drizzle-orm/zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-orm/zod';
 
 export const bikeAddressTable = pgTable(
   'bike_address',
@@ -18,4 +18,8 @@ export const bikeAddressTable = pgTable(
 );
 export const BikeAddressInsertSchema = createInsertSchema(bikeAddressTable).omit({
   id: true,
+});
+export const BikeAddressQuerySchema = createSelectSchema(bikeAddressTable).omit({
+  id: true,
+  bikeId: true,
 });

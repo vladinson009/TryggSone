@@ -1,15 +1,13 @@
 import type z from 'zod';
-import { db } from '../db/index.js';
-import { BikeInsertSchema, bikesTable } from '../db/bikes-schema.js';
-import { bikeEventBus } from '../lib/rabbitmq/connection.js';
-import { bikePublisher } from '../lib/rabbitmq/publisher.js';
+import { db } from '../../db/index.js';
+import { BikeInsertSchema, bikesTable } from '../../db/bikes-schema.js';
+import { bikeEventBus } from '../../lib/rabbitmq/connection.js';
+import { bikePublisher } from '../../lib/rabbitmq/publisher.js';
 import { bikeKey } from '@tryggsone/common/keys';
-import { bikePhotosTable } from '../db/bikePhotos-schema.js';
+import { bikePhotosTable } from '../../db/bikePhotos-schema.js';
+import type { Bike } from '@tryggsone/common/types';
 
-export const insertNewBike = async (
-  body: z.infer<typeof BikeInsertSchema>,
-  ownerId: string,
-) => {
+export const insertNewBike = async (body: z.infer<typeof BikeInsertSchema>, ownerId: string) => {
   const bike = await db.transaction(async (tx) => {
     const [bike] = await tx
       .insert(bikesTable)
