@@ -25,19 +25,14 @@ app.post('/', validateJson(BikeInsertSchema), requireAuth, async (c) => {
   const createdBike = await bikesClient.insertNewBike(body, ownerId);
   return c.json(createdBike);
 });
-app.post(
-  '/add-address',
-  validateJson(BikeInsertAddressSchema),
-  requireAuth,
-  async (c) => {
-    const body = c.req.valid('json');
-    const { id: ownerId } = c.get('user');
+app.post('/add-address', validateJson(BikeInsertAddressSchema), requireAuth, async (c) => {
+  const body = c.req.valid('json');
+  const { id: ownerId } = c.get('user');
 
-    const address = await bikesClient.addAddress(body, ownerId);
+  const address = await bikesClient.addAddress(body, ownerId);
 
-    return c.json(address);
-  },
-);
+  return c.json(address);
+});
 app.delete('/:bikeId', requireAuth, async (c) => {
   const bikeId = c.req.param('bikeId');
   const { id: ownerId } = c.get('user');
