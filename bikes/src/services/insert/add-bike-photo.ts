@@ -4,8 +4,8 @@ import { and, eq, max } from 'drizzle-orm';
 import { bikeKey } from '@tryggsone/common/keys';
 import { ServiceError } from '@tryggsone/common/errors';
 
-import { bikeEventBus } from '../../lib/rabbitmq/connection.js';
-import { bikePublisher } from '../../lib/rabbitmq/publisher.js';
+import { bikeEventBus } from '../../rabbitmq/connection.js';
+import { bikePublisher } from '../../rabbitmq/publisher.js';
 
 import { BikePhotoInsertSchema, bikePhotosTable } from '../../db/bikePhotos-schema.js';
 import { db } from '../../db/index.js';

@@ -5,12 +5,6 @@ export const vehicleEventsTable = pgTable(
   {
     id: uuid('id').defaultRandom().primaryKey(),
 
-    // The vehicle that generated/relates to this event
-    vehicleId: uuid('vehicle_id').notNull(),
-
-    // Owner at the time of the event
-    ownerId: text('owner_id'),
-
     // e.g. "bike.created", "bike.updated", "bike.stolen"
     eventType: text('event_type').notNull(),
 
@@ -30,8 +24,6 @@ export const vehicleEventsTable = pgTable(
     createdAt: timestamp('created_at').defaultNow().notNull(),
   },
   (table) => [
-    index('vehicle_events_vehicle_id_idx').on(table.vehicleId),
-    index('vehicle_events_owner_id_idx').on(table.ownerId),
     index('vehicle_events_event_type_idx').on(table.eventType),
     index('vehicle_events_occurred_at_idx').on(table.occurredAt),
   ],
