@@ -2,120 +2,119 @@ apiVersion: skaffold/v4beta14
 kind: Config
 
 metadata:
-  name: tryggsone
+    name: tryggsone
 
 deploy:
     kubectl: {}
 
 manifests:
-  rawYaml:
+    rawYaml:
         - ./infra/k8s-dev/*
         - ./infra/k8s/*
         - ./infra/secrets/*
         - ./infra/certs/*
 
 build:
-  local:
-    push: false
+    local:
+        push: false
 
-  artifacts:
-    - image: tryggsone-bff
-      context: bff
-      docker:
-        dockerfile: Dockerfile
-        target: development
-      sync:
-        manual:
-          - src: "src/**/*.ts"
-            dest: /app
-            
-    - image: tryggsone-logger
-      context: logger
-      docker:
-        dockerfile: Dockerfile
-        target: development
-      sync:
-        manual:
-          - src: "src/**/*.ts"
-            dest: /app
-            
-    - image: tryggsone-auth
-      context: auth
-      docker:
-        dockerfile: Dockerfile
-        target: development
-      sync:
-        manual:
-          - src: "src/**/*.ts"
-            dest: /app
-
-    - image: tryggsone-bikes
-      context: bikes
-      docker:
-        dockerfile: Dockerfile
-        target: development
-      sync:
-        manual:
-          - src: "src/**/*.ts"
-            dest: /app
-
-    - image: tryggsone-client
-      context: client
-      docker:
-        dockerfile: Dockerfile
-        target: development
-      sync:
-        manual:
-          - dest: /app
-            src: "**/*.tsx"
-          - dest: /app
-            src: "**/*.ts"
-          - dest: /app
-            src: "**/*.css"
-          - dest: /app
-            src: "**/*.json"
-            
-
-profiles:
-  - name: production
-    requiresAllActivations: false
-
-    manifests:
-      rawYaml:
-        - ./infra/k8s-prod/*
-        - ./infra/k8s/*
-        - ./infra/secrets/*
-    
-    build:
-      local:
-        push: true
-
-      artifacts:
+    artifacts:
         - image: tryggsone-bff
           context: bff
           docker:
-            dockerfile: Dockerfile
-            target: production
+              dockerfile: Dockerfile
+              target: development
+          sync:
+              manual:
+                  - src: "src/**/*.ts"
+                    dest: /app
+
         - image: tryggsone-logger
           context: logger
           docker:
-            dockerfile: Dockerfile
-            target: production
+              dockerfile: Dockerfile
+              target: development
+          sync:
+              manual:
+                  - src: "src/**/*.ts"
+                    dest: /app
 
         - image: tryggsone-auth
           context: auth
           docker:
-            dockerfile: Dockerfile
-            target: production
+              dockerfile: Dockerfile
+              target: development
+          sync:
+              manual:
+                  - src: "src/**/*.ts"
+                    dest: /app
 
         - image: tryggsone-bikes
           context: bikes
           docker:
-            dockerfile: Dockerfile
-            target: production
+              dockerfile: Dockerfile
+              target: development
+          sync:
+              manual:
+                  - src: "src/**/*.ts"
+                    dest: /app
 
         - image: tryggsone-client
           context: client
           docker:
-            dockerfile: Dockerfile
-            target: production
+              dockerfile: Dockerfile
+              target: development
+          sync:
+              manual:
+                  - dest: /app
+                    src: "**/*.tsx"
+                  - dest: /app
+                    src: "**/*.ts"
+                  - dest: /app
+                    src: "**/*.css"
+                  - dest: /app
+                    src: "**/*.json"
+
+profiles:
+    - name: production
+      requiresAllActivations: false
+
+      manifests:
+          rawYaml:
+              - ./infra/k8s-prod/*
+              - ./infra/k8s/*
+              - ./infra/secrets/*
+
+      build:
+          local:
+              push: true
+
+          artifacts:
+              - image: tryggsone-bff
+                context: bff
+                docker:
+                    dockerfile: Dockerfile
+                    target: production
+              - image: tryggsone-logger
+                context: logger
+                docker:
+                    dockerfile: Dockerfile
+                    target: production
+
+              - image: tryggsone-auth
+                context: auth
+                docker:
+                    dockerfile: Dockerfile
+                    target: production
+
+              - image: tryggsone-bikes
+                context: bikes
+                docker:
+                    dockerfile: Dockerfile
+                    target: production
+
+              - image: tryggsone-client
+                context: client
+                docker:
+                    dockerfile: Dockerfile
+                    target: production

@@ -1,27 +1,20 @@
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
-  name: rabbitmq
-  namespace: default
+    name: rabbitmq
+    namespace: default
 spec:
-  replicas: 1
-  # 1. Define explicit Kubernetes resource limits
-  resources:
-    limits:
-      cpu: "1"
-      memory: "1Gi"
-    requests:
-      cpu: "250m"
-      memory: "512Mi"
-  # 2. Adjust RabbitMQ internal memory watermark threshold
-  rabbitmq:
-    additionalConfig: |
-      vm_memory_high_watermark.relative = 0.6
-      disk_free_limit.absolute = 10MB
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: rabbitmq-config
-data:
-  RABBITMQ_URL: "rabbitmq:5672"
+    replicas: 1
+    # 1. Define explicit Kubernetes resource limits
+    resources:
+        limits:
+            cpu: "1"
+            memory: "1Gi"
+        requests:
+            cpu: "250m"
+            memory: "512Mi"
+    # 2. Adjust RabbitMQ internal memory watermark threshold
+    rabbitmq:
+        additionalConfig: |
+            vm_memory_high_watermark.relative = 0.6
+            disk_free_limit.absolute = 10MB
