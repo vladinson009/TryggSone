@@ -1,14 +1,17 @@
-import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
-import { errorHandler } from './middlewares/error-handler.js';
-import { connectRedis } from './clients/redis-client.js';
+import { serve } from '@hono/node-server';
+import { BIKE_ROUTES } from '@tryggsone/common/configs';
+
 import { env } from './config/env.js';
+import { errorHandler } from './middlewares/error-handler.js';
+
+import { connectRedis } from './clients/redis-client.js';
 import { appBikes } from './routes/bikes.js';
 
-const app = new Hono();
+const app = new Hono({});
 app.onError(errorHandler);
 
-app.route('/api/bikes', appBikes);
+app.route(BIKE_ROUTES.apiBikes, appBikes);
 
 serve(
   {

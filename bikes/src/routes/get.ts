@@ -4,10 +4,11 @@ import { zValidator } from '@hono/zod-validator';
 import { paginationSchema } from '../zod/pagination.js';
 import { bikesForSale } from '../services/query/bikes-for-sale.js';
 import { getBikeById } from '../services/query/get-bike-by-id.js';
+import { BIKE_ROUTES } from '@tryggsone/common/configs';
 
 const app = new Hono();
 
-app.get('/for-sale', zValidator('query', paginationSchema), async (c) => {
+app.get(BIKE_ROUTES.forSale, zValidator('query', paginationSchema), async (c) => {
   const { limit, page } = c.req.valid('query');
 
   const { data, pagination } = await bikesForSale({ limit, page });
@@ -15,7 +16,7 @@ app.get('/for-sale', zValidator('query', paginationSchema), async (c) => {
   return c.json({ data, pagination });
 });
 
-app.get('/:bikeId', async (c) => {
+app.get(BIKE_ROUTES.bikeId, async (c) => {
   const bikeId = c.req.param('bikeId');
 
   const response = await getBikeById(bikeId);

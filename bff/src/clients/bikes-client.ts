@@ -4,7 +4,7 @@ import type { PaginationQuery } from '../schemas/pagination-query.js';
 import { env } from '../config/env.js';
 
 import { createHttpClient } from './http-client.js';
-import { headers } from '@tryggsone/common/configs';
+import { HEADER_CONST, BIKE_ROUTES } from '@tryggsone/common/configs';
 import type {
   Bike,
   BikeAddress,
@@ -18,36 +18,36 @@ import { toQueryString } from '@tryggsone/common/libs';
 const createBikesClient = (baseUrl: string) => {
   const httpClient = createHttpClient(baseUrl);
   return {
+    getBikeById: (bikeId: string) => httpClient.get<BikeGetByIdResponse>(`/${bikeId}`),
     bikesForSale: (query: PaginationQuery) =>
-      httpClient.get<PaginatedResult<BikeForSale>>(`/for-sale${toQueryString(query)}`, {}),
+      httpClient.get<PaginatedResult<BikeForSale>>(BIKE_ROUTES.forSale + toQueryString(query), {}),
 
     insertNewBike: (body: BikeInsert, ownerId: string) =>
-      httpClient.post<Bike>('/', {
+      httpClient.post<Bike>(BIKE_ROUTES.root, {
         body,
         headers: {
-          [headers.xUserId]: ownerId,
+          [HEADER_CONST.xUserId]: ownerId,
         },
       }),
     addAddress: (body: BikeInsertAddress, ownerId: string) =>
-      httpClient.post<BikeAddress>('/add-address', {
+      httpClient.post<BikeAddress>(BIKE_ROUTES.addAddress, {
         body,
         headers: {
-          [headers.xUserId]: ownerId,
+          [HEADER_CONST.xUserId]: ownerId,
         },
       }),
     addPhoto: (body: BikeInsertPhoto, ownerId: string) =>
-      httpClient.post<BikePhoto>('/add-photo', {
+      httpClient.post<BikePhoto>(BIKE_ROUTES.addPhoto, {
         body,
         headers: {
-          [headers.xUserId]: ownerId,
+          [HEADER_CONST.xUserId]: ownerId,
         },
       }),
-    getBikeById: (bikeId: string) => httpClient.get<BikeGetByIdResponse>(`/${bikeId}`),
 
     deleteBikeById: (bikeId: string, ownerId: string) =>
       httpClient.delete<{ success: boolean }>(`/${bikeId}`, {
         headers: {
-          [headers.xUserId]: ownerId,
+          [HEADER_CONST.xUserId]: ownerId,
         },
       }),
   };

@@ -9,11 +9,12 @@ import {
 import { requireAuth } from '../middlewares/requireAuth.js';
 import { PaginationQuerySchema } from '../schemas/pagination-query.js';
 import { validateJson } from '../lib/validate-zod-json.js';
+import { BIKE_ROUTES } from '@tryggsone/common/configs';
 
 const app = new Hono();
 
 // Get Bike By ID
-app.get('/:bikeId', async (c) => {
+app.get(BIKE_ROUTES.bikeId, async (c) => {
   const bikeId = c.req.param('bikeId');
 
   const response = await bikesClient.getBikeById(bikeId);
@@ -21,7 +22,7 @@ app.get('/:bikeId', async (c) => {
 });
 
 // Bikes for sale
-app.get('/for-sale', zValidator('query', PaginationQuerySchema), async (c) => {
+app.get(BIKE_ROUTES.forSale, zValidator('query', PaginationQuerySchema), async (c) => {
   const query = c.req.valid('query');
 
   const bikes = await bikesClient.bikesForSale(query);
@@ -29,7 +30,7 @@ app.get('/for-sale', zValidator('query', PaginationQuerySchema), async (c) => {
 });
 
 // Insert new bike
-app.post('/', validateJson(BikeInsertSchema), requireAuth, async (c) => {
+app.post(BIKE_ROUTES.root, validateJson(BikeInsertSchema), requireAuth, async (c) => {
   const body = c.req.valid('json');
 
   const { id: ownerId } = c.get('user');
@@ -38,7 +39,7 @@ app.post('/', validateJson(BikeInsertSchema), requireAuth, async (c) => {
   return c.json(createdBike);
 });
 // Add Bike address
-app.post('/add-address', validateJson(BikeInsertAddressSchema), requireAuth, async (c) => {
+app.post(BIKE_ROUTES.addAddress, validateJson(BikeInsertAddressSchema), requireAuth, async (c) => {
   const body = c.req.valid('json');
   const { id: ownerId } = c.get('user');
 
@@ -47,7 +48,7 @@ app.post('/add-address', validateJson(BikeInsertAddressSchema), requireAuth, asy
   return c.json(address);
 });
 // Add Bike Photo
-app.post('/add-photo', validateJson(BikeInsertPhotoSchema), requireAuth, async (c) => {
+app.post(BIKE_ROUTES.addPhoto, validateJson(BikeInsertPhotoSchema), requireAuth, async (c) => {
   const body = c.req.valid('json');
   const { id: ownerId } = c.get('user');
 
@@ -56,7 +57,7 @@ app.post('/add-photo', validateJson(BikeInsertPhotoSchema), requireAuth, async (
   return c.json(photo);
 });
 // Delete Bike by ID
-app.delete('/:bikeId', requireAuth, async (c) => {
+app.delete(BIKE_ROUTES.bikeId, requireAuth, async (c) => {
   const bikeId = c.req.param('bikeId');
 
   const { id: ownerId } = c.get('user');
