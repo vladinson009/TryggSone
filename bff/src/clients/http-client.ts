@@ -1,15 +1,15 @@
 import { ServiceError } from '@tryggsone/common/errors';
-import type { ServiceErrorResponse } from './types/responses.js';
+type ServiceErrorResponse = {
+  code: string;
+  status: number;
+  message: string;
+};
 
 type Options = { body?: unknown; headers?: HeadersInit };
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export const createHttpClient = (baseUrl: string) => {
-  const fetcher = async <T>(
-    method: Method,
-    url: string,
-    options: Options = {},
-  ): Promise<T> => {
+  const fetcher = async <T>(method: Method, url: string, options: Options = {}): Promise<T> => {
     const requestOptions: RequestInit = { method, headers: options.headers };
 
     if (options.body !== undefined) {
@@ -37,7 +37,6 @@ export const createHttpClient = (baseUrl: string) => {
     get: <T>(url: string, options?: Options) => fetcher<T>('GET', url, options),
     post: <T>(url: string, options?: Options) => fetcher<T>('POST', url, options),
     put: <T>(url: string, options?: Options) => fetcher<T>('PUT', url, options),
-    delete: (url: string, options?: Options) =>
-      fetcher<void>('DELETE', url, options),
+    delete: <T>(url: string, options?: Options) => fetcher<T>('DELETE', url, options),
   };
 };

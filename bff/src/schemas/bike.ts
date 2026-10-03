@@ -40,5 +40,10 @@ export const BikeInsertAddressSchema = z.object({
     .max(200, 'street max length is 200'),
   city: z.string().min(1, 'city is required').max(100, 'city max length is 100'),
 });
+export const BikeInsertPhotoSchema = z.object({
+  bikeId: z.string().min(1, 'BikeId is required'),
+  url: z.url().min(1, 'Bike url is required')
+});
 export type BikeInsert = z.infer<typeof BikeInsertSchema>;
 export type BikeInsertAddress = z.infer<typeof BikeInsertAddressSchema>;
+export type BikeInsertPhoto = z.infer<typeof BikeInsertPhotoSchema>

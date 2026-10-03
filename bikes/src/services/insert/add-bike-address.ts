@@ -1,14 +1,10 @@
-import type z from 'zod';
-
-import { db } from '../db/index.js';
-import { bikeEventBus } from '../lib/rabbitmq/connection.js';
-import { bikePublisher } from '../lib/rabbitmq/publisher.js';
+import { db } from '../../db/index.js';
+import { bikeEventBus } from '../../lib/rabbitmq/connection.js';
+import { bikePublisher } from '../../lib/rabbitmq/publisher.js';
 import { bikeKey } from '@tryggsone/common/keys';
-import {
-  bikeAddressTable,
-  type BikeAddressInsertSchema,
-} from '../db/bike-address-schema.js';
+import { BikeAddressInsertSchema, bikeAddressTable } from '../../db/bike-address-schema.js';
 import { ServiceError } from '@tryggsone/common/errors';
+import type z from 'zod';
 
 export const addBikeAddress = async (
   body: z.infer<typeof BikeAddressInsertSchema>,

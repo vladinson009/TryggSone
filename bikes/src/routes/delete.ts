@@ -23,7 +23,7 @@ app.delete('/:bikeId', requireOwnerId, async (c) => {
     ownerId,
     id: bike.id,
   });
-  return c.json({ succes: true });
+  return c.json({ success: true });
 });
 
 export { app as deleteApp };

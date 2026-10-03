@@ -1,16 +1,16 @@
-import type { PaginationParams } from '../zod/pagination.js';
-import type { BikesForSaleResponse, PaginatedResult } from '@tryggsone/common/types';
+import type { PaginationParams } from '../../zod/pagination.js';
+import type { BikeForSale, PaginatedResult } from '@tryggsone/common/types';
 
 import { and, count, eq } from 'drizzle-orm';
 
-import { bikesTable } from '../db/bikes-schema.js';
-import { bikePhotosTable } from '../db/bikePhotos-schema.js';
-import { db } from '../db/index.js';
+import { bikesTable } from '../../db/bikes-schema.js';
+import { bikePhotosTable } from '../../db/bikePhotos-schema.js';
+import { db } from '../../db/index.js';
 
 export const bikesForSale = async ({
   page = 1,
   limit = 20,
-}: PaginationParams): Promise<PaginatedResult<BikesForSaleResponse>> => {
+}: PaginationParams): Promise<PaginatedResult<BikeForSale>> => {
   const offset = (page - 1) * limit;
 
   const [data, totalResult] = await Promise.all([
@@ -31,10 +31,7 @@ export const bikesForSale = async ({
       .from(bikesTable)
       .leftJoin(
         bikePhotosTable,
-        and(
-          eq(bikePhotosTable.bikeId, bikesTable.id),
-          eq(bikePhotosTable.sortOrder, 0),
-        ),
+        and(eq(bikePhotosTable.bikeId, bikesTable.id), eq(bikePhotosTable.sortOrder, 0)),
       )
       .limit(limit)
       .offset(offset),

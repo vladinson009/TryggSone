@@ -1,20 +1,7 @@
-import {
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-  integer,
-  boolean,
-  pgEnum,
-} from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid, integer, boolean, pgEnum } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-orm/zod';
 
-export const bikeStatusEnum = pgEnum('bike_status', [
-  'active',
-  'for_sale',
-  'stolen',
-  'deleted',
-]);
+export const bikeStatusEnum = pgEnum('bike_status', ['active', 'for_sale', 'stolen', 'deleted']);
 export const bikeConditionEnum = pgEnum('bike_condition', [
   'new',
   'like_new',
