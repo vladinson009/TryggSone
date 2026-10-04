@@ -3,7 +3,7 @@ import { bikeEventBus } from '../../rabbitmq/connection.js';
 import { bikePublisher } from '../../rabbitmq/publisher.js';
 import { bikeKey } from '@tryggsone/common/keys';
 import { BikeAddressInsertSchema, bikeAddressTable } from '../../db/bike-address-schema.js';
-import { ServiceError } from '@tryggsone/common/errors';
+import { ForbiddenError, NotFoundError } from '@tryggsone/common/errors';
 import type z from 'zod';
 
 export const addBikeAddress = async (
@@ -18,10 +18,10 @@ export const addBikeAddress = async (
     });
 
     if (!bike) {
-      throw new ServiceError('NOT_FOUND', 404, 'Bike with that ID is not found');
+      throw new NotFoundError('Bike with that ID is not found');
     }
     if (bike.ownerId !== ownerId) {
-      throw new ServiceError('FORBIDDEN', 403, 'You do not own this bike');
+      throw new ForbiddenError('You do not own this bike');
     }
     const [inserted] = await tx
       .insert(bikeAddressTable)

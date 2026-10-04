@@ -1,4 +1,4 @@
-import { ServiceError } from '@tryggsone/common/errors';
+import { UnauthorizedError } from '@tryggsone/common/errors';
 import { createMiddleware } from 'hono/factory';
 import { authClient } from '../clients/auth-client.js';
 import type { AuthSession, AuthUser } from '@tryggsone/common/types';
@@ -13,7 +13,7 @@ export const requireAuth = createMiddleware<{ Variables: AuthVariables }>(async 
 
   // Redundant ?
   if (!session) {
-    throw new ServiceError('UNAUTHORIZED', 401, 'Unauthorized');
+    throw new UnauthorizedError('Unauthorized');
   }
   c.set('user', session.user);
   c.set('session', session.session);
