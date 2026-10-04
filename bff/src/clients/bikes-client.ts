@@ -1,4 +1,9 @@
-import type { BikeInsert, BikeInsertAddress, BikeInsertPhoto } from '../schemas/bike.js';
+import type {
+  BikeInsert,
+  BikeInsertAddress,
+  BikeInsertPhoto,
+  BikeUpdate,
+} from '../schemas/bike.js';
 import type { PaginationQuery } from '../schemas/pagination-query.js';
 
 import { env } from '../config/env.js';
@@ -20,7 +25,7 @@ const createBikesClient = (baseUrl: string) => {
   return {
     getBikeById: (bikeId: string) => httpClient.get<BikeGetByIdResponse>(`/${bikeId}`),
     bikesForSale: (query: PaginationQuery) =>
-      httpClient.get<PaginatedResult<BikeForSale>>(BIKE_ROUTES.forSale + toQueryString(query), {}),
+      httpClient.get<PaginatedResult<BikeForSale>>(BIKE_ROUTES.forSale + toQueryString(query)),
 
     insertNewBike: (body: BikeInsert, ownerId: string) =>
       httpClient.post<Bike>(BIKE_ROUTES.root, {
@@ -46,6 +51,13 @@ const createBikesClient = (baseUrl: string) => {
 
     deleteBikeById: (bikeId: string, ownerId: string) =>
       httpClient.delete<{ success: boolean }>(`/${bikeId}`, {
+        headers: {
+          [HEADER_CONST.xUserId]: ownerId,
+        },
+      }),
+    updateBikeById: (body: BikeUpdate, bikeId: string, ownerId: string) =>
+      httpClient.patch<Bike>(`/${bikeId}`, {
+        body,
         headers: {
           [HEADER_CONST.xUserId]: ownerId,
         },

@@ -2,8 +2,7 @@ import type z from 'zod';
 import { bikeKey } from '@tryggsone/common/keys';
 
 import { db } from '../../db/index.js';
-import { BikeInsertSchema, BikePatchSchema, bikesTable } from '../../db/bikes-schema.js';
-import { bikePhotosTable } from '../../db/bikePhotos-schema.js';
+import { BikePatchSchema, bikesTable } from '../../db/bikes-schema.js';
 
 import { bikeEventBus } from '../../rabbitmq/connection.js';
 import { bikePublisher } from '../../rabbitmq/publisher.js';
@@ -31,5 +30,7 @@ export const editBikeById = async (
   const channel = await bikeEventBus.getChannel();
   await bikePublisher.publish(channel, bikeKey('updated'), bike);
 
-  return bike;
+  const { version, ...bikeResponse } = bike;
+
+  return bikeResponse;
 };

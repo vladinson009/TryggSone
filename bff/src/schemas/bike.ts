@@ -45,6 +45,9 @@ export const BikeInsertPhotoSchema = z.object({
   bikeId: z.string().min(1, 'BikeId is required'),
   url: z.url().min(1, 'Bike url is required'),
 });
+export const BikeUpdateSchema = BikeInsertSchema.partial();
+
 export type BikeInsert = z.infer<typeof BikeInsertSchema>;
+export type BikeUpdate = z.infer<typeof BikeUpdateSchema>;
 export type BikeInsertAddress = z.infer<typeof BikeInsertAddressSchema>;
 export type BikeInsertPhoto = z.infer<typeof BikeInsertPhotoSchema>;
