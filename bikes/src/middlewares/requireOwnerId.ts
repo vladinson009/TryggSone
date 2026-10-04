@@ -1,6 +1,6 @@
 import { createMiddleware } from 'hono/factory';
 import { ServiceError } from '@tryggsone/common/errors';
-import { headers } from '@tryggsone/common/configs';
+import { HEADER_CONST } from '@tryggsone/common/configs';
 
 type Env = {
   Variables: {
@@ -9,7 +9,7 @@ type Env = {
 };
 
 export const requireOwnerId = createMiddleware<Env>(async (c, next) => {
-  const ownerId = c.req.header(headers.xUserId);
+  const ownerId = c.req.header(HEADER_CONST.xUserId);
 
   if (!ownerId) {
     throw new ServiceError('UNAUTHORIZED', 401, 'Missing user identity');

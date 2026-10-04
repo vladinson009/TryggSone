@@ -38,7 +38,7 @@ export const getBikeById = async (bikeId: string): Promise<BikeGetByIdResponse> 
   }
 
   const address = bikeResult[0].address;
-  const bike = bikeResult[0].bike;
+  const { version, ...bike } = bikeResult[0].bike;
 
   return {
     bike,

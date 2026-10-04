@@ -56,6 +56,8 @@ export const bikesTable = pgTable('bikes', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 
   isApproved: boolean('is_approved').notNull().default(false),
+
+  version: integer().notNull().default(0),
 });
 
 export const BikeInsertSchema = createInsertSchema(bikesTable).omit({
@@ -63,3 +65,4 @@ export const BikeInsertSchema = createInsertSchema(bikesTable).omit({
   ownerId: true,
 });
 export const BikeSelectSchema = createSelectSchema(bikesTable);
+export const BikePatchSchema = BikeInsertSchema.partial();
