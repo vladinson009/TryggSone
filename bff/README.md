@@ -139,6 +139,33 @@ BikePhoto;
 
 ---
 
+### ➕ PATCH
+
+#### Create Bike
+
+```http
+POST /api/bikes
+```
+
+Update bike.
+
+**Request Body**
+
+The request body uses the `Bike` type with automatically generated fields omitted, such as `id` and `ownerId` and all optional fields.
+UpdatedAt and version are updated automatically
+
+```ts
+Omit<Bike, 'id' | 'ownerId' | 'createdAt' | 'updatedAt'>;
+```
+
+**Response**
+
+```ts
+Bike;
+```
+
+---
+
 ### 🗑️ DELETE
 
 #### Delete Bike By ID
