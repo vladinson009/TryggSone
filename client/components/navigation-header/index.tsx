@@ -8,6 +8,7 @@ import NavigationSheet from './navigation-sheet';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '../ui/input-group';
 import TryggLogo from '../trygg-logo';
 import Container from '../container';
+import LanguageToggle from './change-language/change-language';
 
 export default function NavigationHeader() {
   const { data } = authClient.useSession();
@@ -33,6 +34,10 @@ export default function NavigationHeader() {
         {/* Quick Access */}
         {/* //TODO: */}
         <div className="flex items-center gap-3">
+          <LanguageToggle
+            // className="flex flex-col items-center justify-center text-md"/
+          >
+          </LanguageToggle>
           <Link
             className="flex flex-col items-center justify-center text-md"
             href="/"
