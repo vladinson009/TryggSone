@@ -4,7 +4,7 @@ import { redisClient } from './redis-client.js';
 import { cachedSessionKey } from '../redis/keys.js';
 import { env } from '../config/env.js';
 import { createHttpClient } from './http-client.js';
-import { ServiceError } from '@tryggsone/common/errors';
+import { UnauthorizedError } from '@tryggsone/common/errors';
 import type { SessionResponse } from '@tryggsone/common/types';
 
 const createAuthClient = (baseUrl: string) => {
@@ -37,7 +37,7 @@ const createAuthClient = (baseUrl: string) => {
         },
       });
       if (!session) {
-        throw new ServiceError('UNAUTHORIZED', 401, 'No active session');
+        throw new UnauthorizedError('No active session');
       }
       console.log('Auth SRV cookie');
 

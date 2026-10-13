@@ -4,7 +4,7 @@ import { db } from '../../db/index.js';
 import { bikeEventBus } from '../../rabbitmq/connection.js';
 import { bikePublisher } from '../../rabbitmq/publisher.js';
 import { bikeKey } from '@tryggsone/common/keys';
-import { ServiceError } from '@tryggsone/common/errors';
+import { NotFoundError } from '@tryggsone/common/errors';
 
 export const deleteBikeById = async (
   bikeId: string,
@@ -16,7 +16,7 @@ export const deleteBikeById = async (
     .returning();
 
   if (!bike) {
-    throw new ServiceError('NOT_FOUND', 404, 'Cannot find bike to delete');
+    throw new NotFoundError('Cannot find bike to delete');
   }
 
   const channel = await bikeEventBus.getChannel();

@@ -2,7 +2,7 @@ import type z from 'zod';
 import { and, eq, max } from 'drizzle-orm';
 
 import { bikeKey } from '@tryggsone/common/keys';
-import { ServiceError } from '@tryggsone/common/errors';
+import { ForbiddenError, NotFoundError } from '@tryggsone/common/errors';
 
 import { bikeEventBus } from '../../rabbitmq/connection.js';
 import { bikePublisher } from '../../rabbitmq/publisher.js';
@@ -23,8 +23,11 @@ export const addBikePhoto = async (
       .limit(1)
       .leftJoin(bikePhotosTable, eq(bikePhotosTable.id, body.bikeId));
 
-    if (!bike) {
-      throw new ServiceError('NOT_FOUND', 404, 'Bike not found');
+    if (!bike.bikes) {
+      throw new NotFoundError('Bike with that ID is not found');
+    }
+    if (bike.bikes.ownerId !== ownerId) {
+      throw new ForbiddenError('You do not own this bike');
     }
 
     const [result] = await tx

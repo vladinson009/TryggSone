@@ -3,6 +3,7 @@ import z from 'zod';
 const envSchema = z.object({
   AUTH_SERVICE_URL: z.string().nonempty(),
   BIKES_SERVICE_URL: z.string().nonempty(),
+  LOGGER_SERVICE_URL: z.string().nonempty(),
   REDIS_URL: z.string().nonempty(),
   PORT: z.coerce.number(),
 });
