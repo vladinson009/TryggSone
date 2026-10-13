@@ -7,11 +7,13 @@ import { errorHandler } from './middlewares/error-handler.js';
 
 import { connectRedis } from './clients/redis-client.js';
 import { appBikes } from './routes/bikes.js';
+import { appLogger } from './routes/logger.js';
 
 const app = new Hono({});
 app.onError(errorHandler);
 
 app.route(BIKE_ROUTES.apiBikes, appBikes);
+app.route('/api/logger', appLogger);
 
 serve(
   {

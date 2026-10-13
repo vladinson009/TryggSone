@@ -8,7 +8,7 @@ import { editBikeById } from '../services/patch/edit-by-id.js';
 
 const app = new Hono();
 
-// Delete Bike By ID
+// Patch Bike By ID
 app.patch(BIKE_ROUTES.bikeId, validateJson(BikePatchSchema), requireOwnerId, async (c) => {
   const bikeId = c.req.param('bikeId');
   const ownerId = c.get('ownerId');

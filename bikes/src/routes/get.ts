@@ -8,6 +8,7 @@ import { BIKE_ROUTES } from '@tryggsone/common/configs';
 
 const app = new Hono();
 
+// Query Bikes for sale
 app.get(BIKE_ROUTES.forSale, zValidator('query', paginationSchema), async (c) => {
   const { limit, page } = c.req.valid('query');
 
@@ -16,6 +17,7 @@ app.get(BIKE_ROUTES.forSale, zValidator('query', paginationSchema), async (c) =>
   return c.json({ data, pagination });
 });
 
+// Query Bike By Id
 app.get(BIKE_ROUTES.bikeId, async (c) => {
   const bikeId = c.req.param('bikeId');
 
