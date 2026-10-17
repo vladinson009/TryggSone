@@ -3,12 +3,11 @@ import type { loggerQuerySchema } from '../zod/logger-query-schema.js';
 import { vehicleEventsTable } from '../db/vehicle-events-schema.js';
 import { and, count, desc, eq, gte, lte, SQL } from 'drizzle-orm';
 import { db } from '../db/index.js';
-import type { PaginatedResult } from '@tryggsone/common/types';
+import type { Log, PaginatedResult } from '@tryggsone/common/types';
 
-// TODO: Change any type with "Log" type from common/types
 export async function queryLogs(
   query: z.infer<typeof loggerQuerySchema>,
-): Promise<PaginatedResult<any>> {
+): Promise<PaginatedResult<Log>> {
   const { limit, page, correlationId, eventId, eventType, from, to } = query;
   const offset = (page - 1) * limit;
 

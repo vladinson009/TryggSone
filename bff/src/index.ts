@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
-import { BIKE_ROUTES } from '@tryggsone/common/configs';
+import { BIKE_ROUTES, LOGGER_ROUTES } from '@tryggsone/common/configs';
 
 import { env } from './config/env.js';
 import { errorHandler } from './middlewares/error-handler.js';
@@ -13,8 +13,7 @@ const app = new Hono({});
 app.onError(errorHandler);
 
 app.route(BIKE_ROUTES.apiBikes, appBikes);
-//TODO: Import path from common package => LOGGER_ROUTES
-app.route('/api/logger', appLogger);
+app.route(LOGGER_ROUTES.apiLogger, appLogger);
 
 serve(
   {

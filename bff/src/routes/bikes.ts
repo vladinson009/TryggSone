@@ -61,9 +61,8 @@ app.post(BIKE_ROUTES.addPhoto, validateJson(BikeInsertPhotoSchema), requireAuth,
   return c.json(bikePhoto);
 });
 
-//TODO: Import path from common package
 // Report stolen bike
-app.post('/:bikeId/report-stolen', validateJson(reportStolenSchema), requireAuth, async (c) => {
+app.post(BIKE_ROUTES.reportStolen, validateJson(reportStolenSchema), requireAuth, async (c) => {
   const body = c.req.valid('json');
   const { id: ownerId } = c.get('user');
   const bikeId = c.req.param('bikeId');
@@ -73,9 +72,8 @@ app.post('/:bikeId/report-stolen', validateJson(reportStolenSchema), requireAuth
   return c.json(report);
 });
 
-//TODO: Import path from common package
 // Report recovered bike
-app.post('/:bikeId/report-recovered', validateJson(recoveredSchema), requireAuth, async (c) => {
+app.post(BIKE_ROUTES.reportRecovered, validateJson(recoveredSchema), requireAuth, async (c) => {
   const body = c.req.valid('json');
   const { id: ownerId } = c.get('user');
   const bikeId = c.req.param('bikeId');
@@ -84,9 +82,8 @@ app.post('/:bikeId/report-recovered', validateJson(recoveredSchema), requireAuth
 
   return c.json(report);
 });
-//TODO: Import path from common package
 // Report list for sale bike
-app.post('/:bikeId/list-for-sale', validateJson(listForSaleSchema), requireAuth, async (c) => {
+app.post(BIKE_ROUTES.listForSale, validateJson(listForSaleSchema), requireAuth, async (c) => {
   const body = c.req.valid('json');
   const { id: ownerId } = c.get('user');
   const bikeId = c.req.param('bikeId');
