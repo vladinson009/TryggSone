@@ -5,7 +5,7 @@ import { getApp } from './routes/get.js';
 
 const app = new Hono();
 
-app.route('/api/logger', getApp);
+app.route('', getApp);
 
 serve(
   {

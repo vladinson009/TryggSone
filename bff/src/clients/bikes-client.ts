@@ -19,6 +19,7 @@ import type {
   PaginatedResult,
 } from '@tryggsone/common/types';
 import { toQueryString } from '@tryggsone/common/libs';
+import type { ReportStolenSchema } from '../schemas/bike-status-schema.js';
 
 const createBikesClient = (baseUrl: string) => {
   const httpClient = createHttpClient(baseUrl);
@@ -57,6 +58,13 @@ const createBikesClient = (baseUrl: string) => {
       }),
     updateBikeById: (body: BikeUpdate, bikeId: string, ownerId: string) =>
       httpClient.patch<Bike>(`/${bikeId}`, {
+        body,
+        headers: {
+          [HEADER_CONST.xUserId]: ownerId,
+        },
+      }),
+    reportStolen: (body: ReportStolenSchema, bikeId: string, ownerId: string) =>
+      httpClient.post<{ success: boolean }>(`/${bikeId}/report-stolen`, {
         body,
         headers: {
           [HEADER_CONST.xUserId]: ownerId,

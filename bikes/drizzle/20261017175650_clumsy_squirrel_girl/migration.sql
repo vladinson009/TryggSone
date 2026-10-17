@@ -1,0 +1,1 @@
+ALTER TABLE "bike_status_events" ALTER COLUMN "actor_id" SET DATA TYPE varchar(50) USING "actor_id"::varchar(50);

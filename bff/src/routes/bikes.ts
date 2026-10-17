@@ -11,6 +11,7 @@ import { requireAuth } from '../middlewares/requireAuth.js';
 import { PaginationQuerySchema } from '../schemas/pagination-query.js';
 import { validateJson } from '../lib/validate-zod-json.js';
 import { BIKE_ROUTES } from '@tryggsone/common/configs';
+import { reportStolenSchema } from '../schemas/bike-status-schema.js';
 
 const app = new Hono();
 
@@ -54,6 +55,18 @@ app.post(BIKE_ROUTES.addPhoto, validateJson(BikeInsertPhotoSchema), requireAuth,
 
   const bikePhoto = await bikesClient.addPhoto(body, ownerId);
   return c.json(bikePhoto);
+});
+
+//TODO: Import path from common package
+// Report stolen bike
+app.post('/:bikeId/report-stolen', validateJson(reportStolenSchema), requireAuth, async (c) => {
+  const body = c.req.valid('json');
+  const { id: ownerId } = c.get('user');
+  const bikeId = c.req.param('bikeId');
+
+  const report = await bikesClient.reportStolen(body, bikeId, ownerId);
+
+  return c.json(report);
 });
 
 // Patch Bike By ID
