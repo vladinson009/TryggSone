@@ -13,6 +13,7 @@ const app = new Hono({});
 app.onError(errorHandler);
 
 app.route(BIKE_ROUTES.apiBikes, appBikes);
+//TODO: Import path from common package => LOGGER_ROUTES
 app.route('/api/logger', appLogger);
 
 serve(

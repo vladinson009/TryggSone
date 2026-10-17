@@ -13,7 +13,7 @@ export const recoveredSchema = z.object({
 });
 
 export const listForSaleSchema = z.object({
-  price: z.number().positive(),
+  price: z.coerce.number().positive(),
 });
 
 export type ReportStolenSchema = z.infer<typeof reportStolenSchema>;
