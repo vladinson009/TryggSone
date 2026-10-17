@@ -16,9 +16,6 @@ export const listForSaleSchema = z.object({
   price: z.number().positive(),
 });
 
-export const soldSchema = z.object({
-  soldAt: z.coerce.date(),
-  salePrice: z.number().positive(),
-});
-
 export type ReportStolenSchema = z.infer<typeof reportStolenSchema>;
+export type ReportRecoveredSchema = z.infer<typeof recoveredSchema>;
+export type ReportListForSaleSchema = z.infer<typeof listForSaleSchema>;

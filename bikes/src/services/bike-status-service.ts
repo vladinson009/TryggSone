@@ -1,18 +1,18 @@
 // services/bike-status-service.ts
-import { and, eq, sql } from 'drizzle-orm';
-
-import { db } from '../db/index.js';
-import { bikeStatusEventsTable, bikesTable } from '../db/schema.js';
 import type { Bike } from '@tryggsone/common/types';
+
+import { and, eq, sql } from 'drizzle-orm';
+import { bikeKey } from '@tryggsone/common/keys';
 import {
   NotFoundError,
   ForbiddenError,
-  ServiceError,
   BadRequestError,
 } from '@tryggsone/common/errors';
+
+import { db } from '../db/index.js';
+import { bikeStatusEventsTable, bikesTable } from '../db/schema.js';
 import { bikeEventBus } from '../rabbitmq/connection.js';
 import { bikePublisher } from '../rabbitmq/publisher.js';
-import { bikeKey } from '@tryggsone/common/keys';
 
 type TransitionOptions = {
   bikeId: string;
@@ -24,7 +24,7 @@ type TransitionOptions = {
 };
 
 export async function transitionBikeStatus(options: TransitionOptions) {
-  const bikeTransaction = db.transaction(async (tx) => {
+  const bikeTransaction = await db.transaction(async (tx) => {
     // Lock the row to prevent concurrent status changes.
     const [bike] = await tx
       .select()
@@ -73,12 +73,11 @@ export async function transitionBikeStatus(options: TransitionOptions) {
     return updatedBike;
   });
 
-  const updatedBike = await bikeTransaction;
 
   const channel = await bikeEventBus.getChannel();
-  await bikePublisher.publish(channel, bikeKey('updated'), updatedBike);
+  await bikePublisher.publish(channel, bikeKey('updated'), bikeTransaction);
 
-  const { version, ...bikeResponse } = updatedBike;
+  const { version, ...bikeResponse } = bikeTransaction;
 
   return bikeResponse;
 }

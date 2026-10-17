@@ -11,7 +11,11 @@ import { requireAuth } from '../middlewares/requireAuth.js';
 import { PaginationQuerySchema } from '../schemas/pagination-query.js';
 import { validateJson } from '../lib/validate-zod-json.js';
 import { BIKE_ROUTES } from '@tryggsone/common/configs';
-import { reportStolenSchema } from '../schemas/bike-status-schema.js';
+import {
+  listForSaleSchema,
+  recoveredSchema,
+  reportStolenSchema,
+} from '../schemas/bike-status-schema.js';
 
 const app = new Hono();
 
@@ -65,6 +69,29 @@ app.post('/:bikeId/report-stolen', validateJson(reportStolenSchema), requireAuth
   const bikeId = c.req.param('bikeId');
 
   const report = await bikesClient.reportStolen(body, bikeId, ownerId);
+
+  return c.json(report);
+});
+
+//TODO: Import path from common package
+// Report recovered bike
+app.post('/:bikeId/report-recovered', validateJson(recoveredSchema), requireAuth, async (c) => {
+  const body = c.req.valid('json');
+  const { id: ownerId } = c.get('user');
+  const bikeId = c.req.param('bikeId');
+
+  const report = await bikesClient.reportRecovered(body, bikeId, ownerId);
+
+  return c.json(report);
+});
+//TODO: Import path from common package
+// Report list for sale bike
+app.post('/:bikeId/list-for-sale', validateJson(listForSaleSchema), requireAuth, async (c) => {
+  const body = c.req.valid('json');
+  const { id: ownerId } = c.get('user');
+  const bikeId = c.req.param('bikeId');
+
+  const report = await bikesClient.reportListForSale(body, bikeId, ownerId);
 
   return c.json(report);
 });

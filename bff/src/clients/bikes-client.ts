@@ -19,7 +19,11 @@ import type {
   PaginatedResult,
 } from '@tryggsone/common/types';
 import { toQueryString } from '@tryggsone/common/libs';
-import type { ReportStolenSchema } from '../schemas/bike-status-schema.js';
+import type {
+  ReportListForSaleSchema,
+  ReportRecoveredSchema,
+  ReportStolenSchema,
+} from '../schemas/bike-status-schema.js';
 
 const createBikesClient = (baseUrl: string) => {
   const httpClient = createHttpClient(baseUrl);
@@ -65,6 +69,20 @@ const createBikesClient = (baseUrl: string) => {
       }),
     reportStolen: (body: ReportStolenSchema, bikeId: string, ownerId: string) =>
       httpClient.post<{ success: boolean }>(`/${bikeId}/report-stolen`, {
+        body,
+        headers: {
+          [HEADER_CONST.xUserId]: ownerId,
+        },
+      }),
+    reportRecovered: (body: ReportRecoveredSchema, bikeId: string, ownerId: string) =>
+      httpClient.post<{ success: boolean }>(`/${bikeId}/report-recovered`, {
+        body,
+        headers: {
+          [HEADER_CONST.xUserId]: ownerId,
+        },
+      }),
+    reportListForSale: (body: ReportListForSaleSchema, bikeId: string, ownerId: string) =>
+      httpClient.post<{ success: boolean }>(`/${bikeId}/list-for-sale`, {
         body,
         headers: {
           [HEADER_CONST.xUserId]: ownerId,

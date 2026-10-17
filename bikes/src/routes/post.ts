@@ -46,7 +46,7 @@ app.post(BIKE_ROUTES.addPhoto, validateJson(BikePhotoInsertSchema), requireOwner
   return c.json(bikePhoto);
 });
 
-//TODO: ADD routes from common
+//TODO: ADD routes from common / Body as BikeReportStolen
 app.post('/:bikeId/report-stolen', validateJson(reportStolenSchema), requireOwnerId, async (c) => {
   const body = c.req.valid('json');
   const ownerId = c.get('ownerId');
@@ -56,7 +56,7 @@ app.post('/:bikeId/report-stolen', validateJson(reportStolenSchema), requireOwne
 
   return c.json({ success: true });
 });
-//TODO: ADD routes from common
+//TODO: ADD routes from common / Body as BikeReportRecovered
 app.post('/:bikeId/report-recovered', validateJson(recoveredSchema), requireOwnerId, async (c) => {
   const body = c.req.valid('json');
   const ownerId = c.get('ownerId');
@@ -66,12 +66,14 @@ app.post('/:bikeId/report-recovered', validateJson(recoveredSchema), requireOwne
 
   return c.json({ success: true });
 });
-//TODO: ADD routes from common
+//TODO: ADD routes from common / Body as BikeListForSale
 app.post('/:bikeId/list-for-sale', validateJson(listForSaleSchema), requireOwnerId, async (c) => {
   const body = c.req.valid('json');
   const ownerId = c.get('ownerId');
   const { bikeId } = c.req.param();
 
   await listBikeForSale({ bikeId, ownerId, body });
+
+  return c.json({ success: true });
 });
 export { app as postApp };
