@@ -1,5 +1,5 @@
 import type { PaginationParams } from '../../zod/pagination.js';
-import type { BikeForSale, PaginatedResult } from '@tryggsone/common/types';
+import type { BikeCard, PaginatedResult } from '@tryggsone/common/types';
 
 import { and, count, eq } from 'drizzle-orm';
 
@@ -10,7 +10,7 @@ import { db } from '../../db/index.js';
 export const bikesForSale = async ({
   page = 1,
   limit = 20,
-}: PaginationParams): Promise<PaginatedResult<BikeForSale>> => {
+}: PaginationParams): Promise<PaginatedResult<BikeCard>> => {
   const offset = (page - 1) * limit;
 
   const [data, totalResult] = await Promise.all([

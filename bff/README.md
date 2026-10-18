@@ -58,7 +58,7 @@ GET /api/bikes/for-sale?page=1&limit=20
 **Response**
 
 ```ts
-PaginatedResult<BikeForSale>;
+PaginatedResult<BikeCard>;
 ```
 
 ---
@@ -191,7 +191,7 @@ Deletes a bike by its ID.
 |  Method  | Endpoint                 | Query Params    | Description        | Response                       |
 | :------: | ------------------------ | --------------- | ------------------ | ------------------------------ |
 |  `GET`   | `/api/bikes/:bikeId`     | —               | Get bike by ID     | `BikeGetByIdResponse`          |
-|  `GET`   | `/api/bikes/for-sale`    | `page`, `limit` | Get bikes for sale | `PaginatedResult<BikeForSale>` |
+|  `GET`   | `/api/bikes/for-sale`    | `page`, `limit` | Get bikes for sale | `PaginatedResult<BikeCard>` |
 |  `POST`  | `/api/bikes`             | —               | Create a bike      | `Bike`                         |
 |  `POST`  | `/api/bikes/add-address` | —               | Add bike address   | `BikeAddress`                  |
 |  `POST`  | `/api/bikes/add-photo`   | —               | Add bike photo     | `BikePhoto`                    |
@@ -213,7 +213,7 @@ All shared types are available from:
 Bike;
 BikePhoto;
 BikeAddress;
-BikeForSale;
+BikeCard;
 BikeGetByIdResponse;
 PaginatedResult<T>;
 ```

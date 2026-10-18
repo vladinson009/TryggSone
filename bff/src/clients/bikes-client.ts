@@ -3,7 +3,7 @@ import type {
   BikeInsertAddress,
   BikeInsertPhoto,
   BikeUpdate,
-} from '../schemas/bike.js';
+} from '../schemas/bike/bike.js';
 import type { PaginationQuery } from '../schemas/pagination-query.js';
 
 import { env } from '../config/env.js';
@@ -13,7 +13,7 @@ import { HEADER_CONST, BIKE_ROUTES } from '@tryggsone/common/configs';
 import type {
   Bike,
   BikeAddress,
-  BikeForSale,
+  BikeCard,
   BikeGetByIdResponse,
   BikePhoto,
   PaginatedResult,
@@ -23,14 +23,16 @@ import type {
   ReportListForSaleSchema,
   ReportRecoveredSchema,
   ReportStolenSchema,
-} from '../schemas/bike-status-schema.js';
+} from '../schemas/bike/bike-status-schema.js';
+import type { LookupFrameSchema } from '../schemas/bike/lookup-frame-schema.js';
 
 const createBikesClient = (baseUrl: string) => {
   const httpClient = createHttpClient(baseUrl);
   return {
     getBikeById: (bikeId: string) => httpClient.get<BikeGetByIdResponse>(`/${bikeId}`),
+
     bikesForSale: (query: PaginationQuery) =>
-      httpClient.get<PaginatedResult<BikeForSale>>(BIKE_ROUTES.forSale + toQueryString(query)),
+      httpClient.get<PaginatedResult<BikeCard>>(BIKE_ROUTES.forSale + toQueryString(query)),
 
     insertNewBike: (body: BikeInsert, ownerId: string) =>
       httpClient.post<Bike>(BIKE_ROUTES.root, {
@@ -39,6 +41,7 @@ const createBikesClient = (baseUrl: string) => {
           [HEADER_CONST.xUserId]: ownerId,
         },
       }),
+
     addAddress: (body: BikeInsertAddress, ownerId: string) =>
       httpClient.post<BikeAddress>(BIKE_ROUTES.addAddress, {
         body,
@@ -46,6 +49,7 @@ const createBikesClient = (baseUrl: string) => {
           [HEADER_CONST.xUserId]: ownerId,
         },
       }),
+
     addPhoto: (body: BikeInsertPhoto, ownerId: string) =>
       httpClient.post<BikePhoto>(BIKE_ROUTES.addPhoto, {
         body,
@@ -60,6 +64,7 @@ const createBikesClient = (baseUrl: string) => {
           [HEADER_CONST.xUserId]: ownerId,
         },
       }),
+
     updateBikeById: (body: BikeUpdate, bikeId: string, ownerId: string) =>
       httpClient.patch<Bike>(`/${bikeId}`, {
         body,
@@ -67,6 +72,7 @@ const createBikesClient = (baseUrl: string) => {
           [HEADER_CONST.xUserId]: ownerId,
         },
       }),
+
     reportStolen: (body: ReportStolenSchema, bikeId: string, ownerId: string) =>
       httpClient.post<{ success: boolean }>(`/${bikeId}/report-stolen`, {
         body,
@@ -74,6 +80,7 @@ const createBikesClient = (baseUrl: string) => {
           [HEADER_CONST.xUserId]: ownerId,
         },
       }),
+
     reportRecovered: (body: ReportRecoveredSchema, bikeId: string, ownerId: string) =>
       httpClient.post<{ success: boolean }>(`/${bikeId}/report-recovered`, {
         body,
@@ -81,9 +88,21 @@ const createBikesClient = (baseUrl: string) => {
           [HEADER_CONST.xUserId]: ownerId,
         },
       }),
+
     reportListForSale: (body: ReportListForSaleSchema, bikeId: string, ownerId: string) =>
       httpClient.post<{ success: boolean }>(`/${bikeId}/list-for-sale`, {
         body,
+        headers: {
+          [HEADER_CONST.xUserId]: ownerId,
+        },
+      }),
+    lookupFrameNumber: (query: LookupFrameSchema) =>
+      httpClient.get<PaginatedResult<Bike>>(
+        `${BIKE_ROUTES.lookupFrameNumber}}${toQueryString(query)}`,
+      ),
+
+    getMyBikes: (query: PaginationQuery, ownerId: string) =>
+      httpClient.get<PaginatedResult<BikeCard>>(`${BIKE_ROUTES.myBikes}${toQueryString(query)}`, {
         headers: {
           [HEADER_CONST.xUserId]: ownerId,
         },
