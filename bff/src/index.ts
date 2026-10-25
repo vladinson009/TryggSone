@@ -6,7 +6,7 @@ import { env } from './config/env.js';
 import { errorHandler } from './middlewares/error-handler.js';
 
 import { connectRedis } from './clients/redis-client.js';
-import { appBikes } from './routes/bikes.js';
+import { appBikes } from './routes/bikes/index.js';
 import { appLogger } from './routes/logger.js';
 
 const app = new Hono({});

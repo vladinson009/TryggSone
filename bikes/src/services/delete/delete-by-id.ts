@@ -1,8 +1,8 @@
 import { and, eq } from 'drizzle-orm';
 import { bikesTable } from '../../db/bikes-schema.js';
 import { db } from '../../db/index.js';
-import { bikeEventBus } from '../../rabbitmq/connection.js';
-import { bikePublisher } from '../../rabbitmq/publisher.js';
+import { bikeEventBus } from '../../events/connection.js';
+import { bikePublisher } from '../../events/publisher.js';
 import { bikeKey } from '@tryggsone/common/keys';
 import { NotFoundError } from '@tryggsone/common/errors';
 

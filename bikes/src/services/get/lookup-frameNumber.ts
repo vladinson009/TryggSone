@@ -3,7 +3,7 @@ import type { Bike, PaginatedResult } from '@tryggsone/common/types';
 
 import { bikesTable } from '../../db/schema.js';
 import { db } from '../../db/index.js';
-import type { LookupBikeParams } from '../../zod/lookup-bike-query-schema.js';
+import type { LookupBikeParams } from '../../schemas/lookup-bike-query-schema.js';
 
 export const lookupByFrameNumber = async (
   query: LookupBikeParams,

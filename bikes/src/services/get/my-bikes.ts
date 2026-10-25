@@ -1,4 +1,4 @@
-import type { PaginationParams } from '../../zod/pagination.js';
+import type { PaginationParams } from '../../schemas/pagination.js';
 import type { BikeCard, PaginatedResult } from '@tryggsone/common/types';
 
 import { and, asc, count, desc, eq } from 'drizzle-orm';

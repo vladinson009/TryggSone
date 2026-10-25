@@ -1,4 +1,4 @@
-import { transitionBikeStatus } from '../bike-status-service.js';
+import { transitionBikeStatus } from './transition-bike-status.js';
 
 type Props = {
   ownerId: string;

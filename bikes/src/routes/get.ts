@@ -1,14 +1,14 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 
-import { paginationSchema } from '../zod/pagination.js';
-import { bikesForSale } from '../services/query/bikes-for-sale.js';
-import { getBikeById } from '../services/query/get-bike-by-id.js';
+import { paginationSchema } from '../schemas/pagination.js';
+import { bikesForSale } from '../services/get/bikes-for-sale.js';
+import { getBikeById } from '../services/get/get-bike-by-id.js';
 import { BIKE_ROUTES } from '@tryggsone/common/configs';
-import { lookupByFrameNumber } from '../services/query/lookup-frameNumber.js';
+import { lookupByFrameNumber } from '../services/get/lookup-frameNumber.js';
 import { NotFoundError } from '@tryggsone/common/errors';
-import { lookupBikeSchema } from '../zod/lookup-bike-query-schema.js';
-import { myBikes } from '../services/query/my-bikes.js';
+import { lookupBikeSchema } from '../schemas/lookup-bike-query-schema.js';
+import { myBikes } from '../services/get/my-bikes.js';
 import { requireOwnerId } from '../middlewares/requireOwnerId.js';
 
 const app = new Hono();

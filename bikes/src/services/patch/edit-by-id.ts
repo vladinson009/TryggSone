@@ -4,8 +4,8 @@ import { bikeKey } from '@tryggsone/common/keys';
 import { db } from '../../db/index.js';
 import { BikePatchSchema, bikesTable } from '../../db/bikes-schema.js';
 
-import { bikeEventBus } from '../../rabbitmq/connection.js';
-import { bikePublisher } from '../../rabbitmq/publisher.js';
+import { bikeEventBus } from '../../events/connection.js';
+import { bikePublisher } from '../../events/publisher.js';
 import { and, eq, sql } from 'drizzle-orm';
 
 export const editBikeById = async (

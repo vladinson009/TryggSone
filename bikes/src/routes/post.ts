@@ -7,10 +7,10 @@ import {
   listForSaleSchema,
   recoveredSchema,
   reportStolenSchema,
-} from '../zod/bike-status-schema.js';
-import { reportRecoveredBike } from '../services/post/report-recovered.js';
-import { listBikeForSale } from '../services/post/list-for-sale.js';
-import { reportStolenBike } from '../services/post/report-stolen.js';
+} from '../schemas/bike-status-schema.js';
+import { reportRecoveredBike } from '../services/post/transite-bike-status/report-recovered.js';
+import { listBikeForSale } from '../services/post/transite-bike-status/list-for-sale.js';
+import { reportStolenBike } from '../services/post/transite-bike-status/report-stolen.js';
 import { insertNewBike } from '../services/post/insert-new-bike.js';
 import { addBikePhoto } from '../services/post/add-bike-photo.js';
 import { addBikeAddress } from '../services/post/add-bike-address.js';
@@ -75,4 +75,5 @@ app.post(BIKE_ROUTES.listForSale, validateJson(listForSaleSchema), requireOwnerI
 
   return c.json({ success: true });
 });
+
 export { app as postApp };

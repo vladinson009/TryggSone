@@ -1,6 +1,6 @@
 import { db } from '../../db/index.js';
-import { bikeEventBus } from '../../rabbitmq/connection.js';
-import { bikePublisher } from '../../rabbitmq/publisher.js';
+import { bikeEventBus } from '../../events/connection.js';
+import { bikePublisher } from '../../events/publisher.js';
 import { bikeKey } from '@tryggsone/common/keys';
 import { BikeAddressInsertSchema, bikeAddressTable } from '../../db/bike-address-schema.js';
 import { ForbiddenError, NotFoundError } from '@tryggsone/common/errors';

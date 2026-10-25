@@ -3,7 +3,7 @@ import { Hono } from 'hono';
 import { env } from './config/env.js';
 import { errorHandler } from './middlewares/error-handler.js';
 import { postApp } from './routes/post.js';
-import { bikeEventBus } from './rabbitmq/connection.js';
+import { bikeEventBus } from './events/connection.js';
 import { deleteApp } from './routes/delete.js';
 import { getApp } from './routes/get.js';
 import { patchApp } from './routes/patch.js';

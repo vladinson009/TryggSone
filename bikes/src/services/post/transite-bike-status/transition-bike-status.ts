@@ -3,16 +3,12 @@ import type { Bike } from '@tryggsone/common/types';
 
 import { and, eq, sql } from 'drizzle-orm';
 import { bikeKey } from '@tryggsone/common/keys';
-import {
-  NotFoundError,
-  ForbiddenError,
-  BadRequestError,
-} from '@tryggsone/common/errors';
+import { NotFoundError, ForbiddenError, BadRequestError } from '@tryggsone/common/errors';
 
-import { db } from '../db/index.js';
-import { bikeStatusEventsTable, bikesTable } from '../db/schema.js';
-import { bikeEventBus } from '../rabbitmq/connection.js';
-import { bikePublisher } from '../rabbitmq/publisher.js';
+import { db } from '../../../db/index.js';
+import { bikeStatusEventsTable, bikesTable } from '../../../db/schema.js';
+import { bikeEventBus } from '../../../events/connection.js';
+import { bikePublisher } from '../../../events/publisher.js';
 
 type TransitionOptions = {
   bikeId: string;
@@ -72,7 +68,6 @@ export async function transitionBikeStatus(options: TransitionOptions) {
 
     return updatedBike;
   });
-
 
   const channel = await bikeEventBus.getChannel();
   await bikePublisher.publish(channel, bikeKey('updated'), bikeTransaction);
