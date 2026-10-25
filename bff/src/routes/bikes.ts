@@ -8,7 +8,7 @@ import {
   BikeUpdateSchema,
 } from '../schemas/bike/bike.js';
 import { requireAuth } from '../middlewares/requireAuth.js';
-import { PaginationQuerySchema } from '../schemas/pagination-query.js';
+import { paginationQuerySchema } from '../schemas/pagination-query.js';
 import { validateJson } from '../lib/validate-zod-json.js';
 import { BIKE_ROUTES } from '@tryggsone/common/configs';
 import {
@@ -29,7 +29,7 @@ app.get(BIKE_ROUTES.lookupFrameNumber, zValidator('query', lookupFrameSchema), a
   return c.json(paginatedBikesMatch);
 });
 // Get my bikes
-app.get(BIKE_ROUTES.myBikes, zValidator('query', PaginationQuerySchema), requireAuth, async (c) => {
+app.get(BIKE_ROUTES.myBikes, zValidator('query', paginationQuerySchema), requireAuth, async (c) => {
   const query = c.req.valid('query');
   const { id: ownerId } = c.get('user');
 
@@ -39,7 +39,7 @@ app.get(BIKE_ROUTES.myBikes, zValidator('query', PaginationQuerySchema), require
 });
 
 // Bikes for sale
-app.get(BIKE_ROUTES.forSale, zValidator('query', PaginationQuerySchema), async (c) => {
+app.get(BIKE_ROUTES.forSale, zValidator('query', paginationQuerySchema), async (c) => {
   const query = c.req.valid('query');
   const paginatedBikes = await bikesClient.bikesForSale(query);
   return c.json(paginatedBikes);

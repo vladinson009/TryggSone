@@ -15,9 +15,9 @@ const app = new Hono();
 
 // Query Bikes for sale
 app.get(BIKE_ROUTES.forSale, zValidator('query', paginationSchema), async (c) => {
-  const { limit, page } = c.req.valid('query');
+  const query = c.req.valid('query');
 
-  const bikesForSaleResponse = await bikesForSale({ limit, page });
+  const bikesForSaleResponse = await bikesForSale(query);
 
   return c.json(bikesForSaleResponse);
 });
